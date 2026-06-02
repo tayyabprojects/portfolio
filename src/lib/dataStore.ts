@@ -50,7 +50,7 @@ export interface ServiceData {
   title: string;
   description: string;
   badge: string;
-  iconName: 'Globe' | 'Link' | 'Mail' | 'ShieldCheck' | 'HelpCircle';
+  iconName: 'Globe' | 'Link' | 'Mail' | 'ShieldCheck' | 'HelpCircle' | 'Code2';
 }
 
 export interface ExperienceData {
@@ -83,7 +83,7 @@ export const INITIAL_PORTFOLIO_DATA: PortfolioData = {
     name: 'Muhammad Tayyab',
     title: 'Off-Page SEO Specialist | Link Building Expert | AI-Assisted Web Developer',
     portraitUrl: '/src/assets/images/tayyab_portrait_1780392340788.png',
-    bio: 'Bridge the gap between organic traffic growth and cutting-edge web automation. I specialize in securing premium rank-boosting backlinks, streamlining outreach with AI workflow automation, and developing highly performant digital tools.',
+    bio: 'Bridge the gap between organic traffic growth and custom web development. I specialize in securing premium rank-boosting backlinks, building stunning websites via AI-driven vibe coding, and developing fast, friendly digital tools.',
     email: 'seomatayyab@gmail.com',
     whatsapp: '03004504088',
     linkedin: 'https://www.linkedin.com/in/asktayyab/',
@@ -94,14 +94,14 @@ export const INITIAL_PORTFOLIO_DATA: PortfolioData = {
     successRate: '100%'
   },
   aboutInfo: {
-    missionTitle: 'Driven by Growth, Powered by Automation',
+    missionTitle: 'Driven by Growth, Powered by Vibe Coding',
     missionText: 'I help agencies, brands, and digital publishers supercharge their search engine dominance. With a technical background grounded in a Diploma in Computer Information Technology (DAE CIT), I combine off-page link strategies with cutting-edge front-end developments and custom integrations.',
-    extraBio: 'Rather than relying on outdated SEO strategies, I build custom automated outreach pipelines using n8n and Gemini AI. This allows me to scale personalized guest post campaigns, monitor backlinks in real-time, and run highly targeted competitor research.',
+    extraBio: 'Rather than relying on outdated SEO strategies, I build custom web interfaces and outreach tools using modern AI assistant workflows. Through rapid-feedback Vibe Coding, I can scale personalized guest post campaigns, monitor backlinks in real-time, and lay out stunning components.',
     bullets: [
-      'Expertises in Premium Guest Posting and High-DA Link Acquisition',
+      'Expertise in Premium Guest Posting and High-DA Link Acquisition',
       'Tailored Competitor Backlink Analysis and Strategic SEO Consultation',
-      'Specialized in AI-assisted web development with robust setups (React + TS + n8n)',
-      'Automation workflows using Gemini and LLMs for content curation & email outreach'
+      'Specialized in AI-assisted web development with robust modern setups (React + TS)',
+      'Innovative layouts using Gemini and LLMs for rapid digital design & development'
     ],
     technicalEducationDesc: 'A 3-year rigorous diploma focusing on computer systems, web application programming, database design, and software engineering principles.',
     outreachDesc: 'Direct partnerships with hundreds of premium, high-traffic SaaS and editorial sites. No spam networks, only real contextual rankings.',
@@ -124,18 +124,18 @@ export const INITIAL_PORTFOLIO_DATA: PortfolioData = {
       { name: 'GitHub Actions & Git', level: 85 }
     ],
     automationSkills: [
-      { name: 'n8n Workflow Automation', level: 92 },
-      { name: 'Gemini AI Integration', level: 90 },
+      { name: 'Vibe Coding & AI Prompting', level: 96 },
+      { name: 'Gemini AI Code Generation', level: 92 },
       { name: 'API Integrations (REST)', level: 88 },
-      { name: 'Web Scraping / Data Mining', level: 85 }
+      { name: 'Rapid Frontend Prototyping', level: 90 }
     ]
   },
   projects: [
     {
       id: 'edutrack',
-      title: 'EduTrack SMS',
+      title: 'EduTrack',
       category: 'School Management System',
-      description: 'A comprehensive, multi-school management enterprise platform featuring multi-tenant isolation, superb analytics controllers, and custom visual dashboards for Super Admins and School Admins.',
+      description: 'A robust, multi-school management system developed with the assistance of AI. It handles student admissions, dynamic marksheets, automated role management, and administrative tracking seamlessly.',
       imageSrc: '/src/assets/images/edutrack_dashboard_1780392359937.png',
       liveLink: 'https://tayyabprojects.github.io/edutrack/',
       githubLink: 'https://github.com/tayyabprojects/edutrack',
@@ -151,9 +151,9 @@ export const INITIAL_PORTFOLIO_DATA: PortfolioData = {
     },
     {
       id: 'medicare',
-      title: 'Medicare Management',
-      category: 'Appointment Booking Platform',
-      description: 'A high-perf and secure healthcare appointment scheduling portal connecting patients with active clinicians. Features interactive doctor dashboards and prescriptions routers.',
+      title: 'Medicare Plus',
+      category: 'Patient Appointments & Doctor Prescriptions',
+      description: 'An elegant clinic management app built with AI. It streamlines the patient appointment scheduling process and enables doctors to generate, sign, and dispense digital prescriptions quickly.',
       imageSrc: '/src/assets/images/medicare_dashboard_1780392379647.png',
       liveLink: 'https://tayyabprojects.github.io/medicare-project/',
       githubLink: 'https://github.com/tayyabprojects/medicare-project',
@@ -181,9 +181,15 @@ export const INITIAL_PORTFOLIO_DATA: PortfolioData = {
       iconName: 'Link'
     },
     {
+      title: 'Vibe-Coded Web Development',
+      description: 'Lightning-fast creation of stunning, fully-responsive web applications and interactive utility dashboards. Custom layouts, precise animations, and clean components designed through rapid AI-driven "Vibe Coding".',
+      badge: 'Bestseller',
+      iconName: 'Code2'
+    },
+    {
       title: 'Custom SEO Outreach',
-      description: 'Streamlined communication with authors, webmasters, and publishers. Scaled using automated n8n pipelines while retaining critical personalization to ensure high response rates.',
-      badge: 'AI Automated',
+      description: 'Streamlined communication with authors, webmasters, and publishers. Scaled using curated AI assistant workflows while retaining critical personalization to ensure high response rates.',
+      badge: 'AI Powered',
       iconName: 'Mail'
     },
     {
@@ -214,15 +220,15 @@ export const INITIAL_PORTFOLIO_DATA: PortfolioData = {
     },
     {
       period: '2023 - Present',
-      role: 'AI-Assisted Web Systems Architect',
+      role: 'AI-Assisted Web Developer',
       institution: 'Freelance & Enterprise Projects',
-      description: 'Designing highly integrated bespoke management platforms built to handle medium-to-large business data.',
+      description: 'Designing and building highly optimized, responsive web systems using modern frameworks with Gemini and OpenAI LLM development assistants through high-intensity Vibe Coding.',
       bullets: [
-        'Built EduTrack SMS, a school administration portal enabling marksheets, messaging, and multi-tenant billing calculations.',
-        'Created Medicare Clinic Portal, a healthcare booking platform tracking appointments, patient records, and doctor calendars.',
-        'Established automated workflow connections with tools like n8n and LLM agents to deliver lightning-fast data processing.'
+        'Built EduTrack School Management System, an AI-assisted administration portal enabling result management and administrative monitoring.',
+        'Created Medicare Plus, a healthcare scheduling platform supporting digital patient appointments and doctor prescription processes.',
+        'Established rapid prototyping workflows leveraging advanced AI systems to deliver lightning-fast web projects.',
       ],
-      tags: ['React JS', 'TypeScript', 'n8n Workflow', 'Firebase Cloud']
+      tags: ['React JS', 'TypeScript', 'Vibe Coding', 'Firebase Cloud']
     }
   ],
   milestones: [
@@ -233,8 +239,8 @@ export const INITIAL_PORTFOLIO_DATA: PortfolioData = {
     },
     {
       iconName: 'Zap',
-      title: 'Workflow Automation Integration',
-      desc: 'Seamlessly merged low-code engines (n8n) with Gemini APIs to scrape and filter vendor parameters instantly with zero manual delay.'
+      title: 'AI Vibe Coding Mastery',
+      desc: 'Successfully accelerated site development from concept to live deployment using Gemini and large LLM prompting methods, achieving perfect user layouts.'
     },
     {
       iconName: 'Milestone',
@@ -244,7 +250,7 @@ export const INITIAL_PORTFOLIO_DATA: PortfolioData = {
   ]
 };
 
-const STORAGE_KEY = 'muhammad_tayyab_portfolio_v2';
+const STORAGE_KEY = 'muhammad_tayyab_portfolio_v4';
 
 export function getPortfolioData(): PortfolioData {
   try {

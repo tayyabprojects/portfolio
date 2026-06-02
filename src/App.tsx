@@ -9,6 +9,7 @@ import Experience from './components/Experience';
 import Contact from './components/Contact';
 import Footer from './components/Footer';
 import AdminPanel from './components/AdminPanel';
+import CvModal from './components/CvModal';
 import { getPortfolioData, savePortfolioData, PortfolioData } from './lib/dataStore';
 
 export default function App() {
@@ -16,6 +17,14 @@ export default function App() {
   const [portfolioData, setPortfolioData] = useState<PortfolioData>(() => getPortfolioData());
   const [isAdminOpen, setIsAdminOpen] = useState(false);
   const [isAdminAuthenticated, setIsAdminAuthenticated] = useState(false);
+  const [isCvOpen, setIsCvOpen] = useState(false);
+  const [isDarkMode, setIsDarkMode] = useState(() => {
+    if (typeof window !== 'undefined') {
+      const saved = localStorage.getItem('isDarkMode');
+      return saved ? JSON.parse(saved) : false;
+    }
+    return false;
+  });
 
   // Set up an intersection observer to track user scroll positions and highlight nav appropriately
   useEffect(() => {
@@ -50,6 +59,16 @@ export default function App() {
     };
   }, []);
 
+  // Sync Dark Mode state to document root
+  useEffect(() => {
+    if (isDarkMode) {
+      document.documentElement.classList.add('dark');
+    } else {
+      document.documentElement.classList.remove('dark');
+    }
+    localStorage.setItem('isDarkMode', JSON.stringify(isDarkMode));
+  }, [isDarkMode]);
+
   const handleNavigate = (sectionId: string) => {
     setActiveSection(sectionId);
     const element = document.getElementById(sectionId);
@@ -72,49 +91,55 @@ export default function App() {
   };
 
   return (
-    <div className="bg-[#FAFBFD] text-slate-800 min-h-screen selection:bg-indigo-650/10 selection:text-indigo-900 relative">
+    <div className="bg-[#FAFBFD] dark:bg-slate-950 text-slate-800 dark:text-slate-100 min-h-screen selection:bg-indigo-650/10 selection:text-indigo-900 dark:selection:bg-indigo-500/20 dark:selection:text-indigo-200 relative transition-colors duration-300">
       {/* Structural visual blueprint lines in background */}
-      <div className="absolute inset-0 bg-[linear-gradient(to_right,#e2e8f050_1px,transparent_1px),linear-gradient(to_bottom,#e2e8f050_1px,transparent_1px)] bg-[size:18px_18px] pointer-events-none" />
+      <div className="absolute inset-0 bg-[linear-gradient(to_right,#e2e8f050_1px,transparent_1px),linear-gradient(to_bottom,#e2e8f050_1px,transparent_1px)] dark:bg-[linear-gradient(to_right,#33415510_1px,transparent_1px),linear-gradient(to_bottom,#33415510_1px,transparent_1px)] bg-[size:18px_18px] pointer-events-none" />
 
       {/* Navigation Header */}
-      <Header activeSection={activeSection} onNavigate={handleNavigate} />
+      <Header 
+        activeSection={activeSection} 
+        onNavigate={handleNavigate} 
+        isDarkMode={isDarkMode}
+        toggleDarkMode={() => setIsDarkMode(!isDarkMode)}
+        onOpenCv={() => setIsCvOpen(true)}
+      />
 
       {/* Main Sections */}
       <main className="relative">
-        <Hero personalInfo={portfolioData.personalInfo} onNavigate={handleNavigate} />
+        <Hero personalInfo={portfolioData.personalInfo} onNavigate={handleNavigate} onOpenCv={() => setIsCvOpen(true)} />
         
         <div className="max-w-7xl mx-auto px-4 md:px-8">
-          <div className="h-px bg-gradient-to-r from-transparent via-slate-205 to-transparent" />
+          <div className="h-px bg-gradient-to-r from-transparent via-slate-205 dark:via-slate-800 to-transparent" />
         </div>
 
         <About aboutInfo={portfolioData.aboutInfo} />
 
         <div className="max-w-7xl mx-auto px-4 md:px-8">
-          <div className="h-px bg-gradient-to-r from-transparent via-slate-205 to-transparent" />
+          <div className="h-px bg-gradient-to-r from-transparent via-slate-205 dark:via-slate-800 to-transparent" />
         </div>
 
         <Skills skillsData={portfolioData.skillsData} />
 
         <div className="max-w-7xl mx-auto px-4 md:px-8">
-          <div className="h-px bg-gradient-to-r from-transparent via-slate-205 to-transparent" />
+          <div className="h-px bg-gradient-to-r from-transparent via-slate-205 dark:via-slate-800 to-transparent" />
         </div>
 
         <Projects projects={portfolioData.projects} />
 
         <div className="max-w-7xl mx-auto px-4 md:px-8">
-          <div className="h-px bg-gradient-to-r from-transparent via-slate-205 to-transparent" />
+          <div className="h-px bg-gradient-to-r from-transparent via-slate-205 dark:via-slate-800 to-transparent" />
         </div>
 
         <Services services={portfolioData.services} />
 
         <div className="max-w-7xl mx-auto px-4 md:px-8">
-          <div className="h-px bg-gradient-to-r from-transparent via-slate-205 to-transparent" />
+          <div className="h-px bg-gradient-to-r from-transparent via-slate-205 dark:via-slate-800 to-transparent" />
         </div>
 
         <Experience experiences={portfolioData.experiences} />
 
         <div className="max-w-7xl mx-auto px-4 md:px-8">
-          <div className="h-px bg-gradient-to-r from-transparent via-slate-205 to-transparent" />
+          <div className="h-px bg-gradient-to-r from-transparent via-slate-205 dark:via-slate-800 to-transparent" />
         </div>
 
         <Contact />
@@ -134,6 +159,13 @@ export default function App() {
         onSave={handleUpdatePortfolio}
         isAuthenticated={isAdminAuthenticated}
         onAuthenticate={setIsAdminAuthenticated}
+      />
+
+      {/* Interactive CV Resume Overlay */}
+      <CvModal 
+        isOpen={isCvOpen} 
+        onClose={() => setIsCvOpen(false)} 
+        data={portfolioData} 
       />
     </div>
   );

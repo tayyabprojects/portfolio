@@ -7,9 +7,15 @@
   --font-mono: "JetBrains Mono", monospace;
 }
 
+@variant dark (&:where(.dark, .dark *));
+
 html {
   scroll-behavior: smooth;
   background-color: #f8fafc;
+}
+
+html.dark {
+  background-color: #09090b;
 }
 
 body {
