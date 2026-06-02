@@ -46,6 +46,28 @@ export default function Contact() {
     setTimeout(() => {
       setLoading(false);
       setIsSent(true);
+
+      // Save message details to localStorage
+      try {
+        const storedMessagesStr = localStorage.getItem('muhammad_tayyab_contact_messages');
+        const messages = storedMessagesStr ? JSON.parse(storedMessagesStr) : [];
+        const newMessage = {
+          id: `msg-${Date.now()}`,
+          name: formData.name.trim(),
+          email: formData.email.trim(),
+          subject: formData.subject.trim(),
+          message: formData.message.trim(),
+          timestamp: new Date().toISOString()
+        };
+        messages.unshift(newMessage);
+        localStorage.setItem('muhammad_tayyab_contact_messages', JSON.stringify(messages));
+        
+        // Dispatch custom event to notify other components (e.g. AdminPanel) of new messages
+        window.dispatchEvent(new Event('new_contact_message'));
+      } catch (err) {
+        console.error('Error saving contact message:', err);
+      }
+
       setFormData({
         name: '',
         email: '',

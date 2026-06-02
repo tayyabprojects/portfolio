@@ -1,7 +1,8 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import { 
   X, Lock, ShieldCheck, Save, RefreshCw, Plus, Trash2, 
-  Settings, User, Code2, Award, ListPlus, Send, HelpCircle 
+  Settings, User, Code2, Award, ListPlus, Send, HelpCircle,
+  MessageSquare, CheckCircle2, Upload, Image as ImageIcon 
 } from 'lucide-react';
 import { motion, AnimatePresence } from 'motion/react';
 import { PortfolioData } from '../lib/dataStore';
@@ -29,15 +30,66 @@ export default function AdminPanel({
   const [loginError, setLoginError] = useState('');
 
   // Active Tab in Editor
-  const [activeTab, setActiveTab] = useState<'profile' | 'about' | 'skills' | 'projects' | 'services'>('profile');
+  const [activeTab, setActiveTab] = useState<'profile' | 'about' | 'skills' | 'projects' | 'services' | 'messages'>('profile');
+
+  // Contact Messages State
+  interface ContactMessage {
+    id: string;
+    name: string;
+    email: string;
+    subject: string;
+    message: string;
+    timestamp: string;
+  }
+  const [messages, setMessages] = useState<ContactMessage[]>([]);
+
+  const loadMessages = () => {
+    try {
+      const stored = localStorage.getItem('muhammad_tayyab_contact_messages');
+      if (stored) {
+        setMessages(JSON.parse(stored));
+      } else {
+        setMessages([]);
+      }
+    } catch (e) {
+      console.error('Error loading admin contact messages:', e);
+    }
+  };
+
+  // Reactively sync messages
+  useEffect(() => {
+    loadMessages();
+    const handleNewMessage = () => {
+      loadMessages();
+    };
+    window.addEventListener('new_contact_message', handleNewMessage);
+    return () => {
+      window.removeEventListener('new_contact_message', handleNewMessage);
+    };
+  }, []);
+
+  const handleDeleteMessage = (id: string) => {
+    if (confirm('Are you sure you want to delete this message?')) {
+      const updated = messages.filter((m) => m.id !== id);
+      setMessages(updated);
+      localStorage.setItem('muhammad_tayyab_contact_messages', JSON.stringify(updated));
+    }
+  };
+
+  const handleClearAllMessages = () => {
+    if (confirm('Are you sure you want to clear all message logs? This action is irreversible.')) {
+      setMessages([]);
+      localStorage.removeItem('muhammad_tayyab_contact_messages');
+    }
+  };
 
   // Modified Data Buffer
   const [tempData, setTempData] = useState<PortfolioData>(() => JSON.parse(JSON.stringify(data)));
 
   // Always sync temp data with actual data when modal is reopened
-  useState(() => {
+  useEffect(() => {
     setTempData(JSON.parse(JSON.stringify(data)));
-  });
+  }, [data]);
 
   const handleLoginSubmit = (e: React.FormEvent) => {
     e.preventDefault();
@@ -270,7 +322,7 @@ export default function AdminPanel({
                   required
                   value={email}
                   onChange={(e) => setEmail(e.target.value)}
-                  placeholder="tayyabportfolio@gmail.com"
+                  placeholder="Enter email address"
                   className="w-full bg-slate-50 border border-slate-200 rounded-xl px-4 py-3 text-sm focus:outline-none focus:border-indigo-500 focus:bg-white transition-all text-slate-800"
                 />
               </div>
@@ -355,6 +407,28 @@ export default function AdminPanel({
                 <Send className="w-4 h-4 shrink-0" />
                 <span>Services List</span>
               </button>
+              <button
+                onClick={() => setActiveTab('messages')}
+                className={`w-full text-left px-4 py-3 rounded-xl text-xs font-bold flex items-center justify-between transition-all whitespace-nowrap ${
+                  activeTab === 'messages'
+                    ? 'bg-indigo-600 text-white shadow-md'
+                    : 'text-slate-400 hover:bg-slate-200/50 hover:text-slate-800'
+                }`}
+              >
+                <div className="flex items-center gap-2.5">
+                  <MessageSquare className="w-4 h-4 shrink-0" />
+                  <span>Submission Inbox</span>
+                </div>
+                {messages.length > 0 && (
+                  <span className={`px-2 py-0.5 rounded-full text-[10px] font-black transition-colors ${
+                    activeTab === 'messages'
+                      ? 'bg-white text-indigo-650'
+                      : 'bg-indigo-100 text-indigo-600'
+                  }`}>
+                    {messages.length}
+                  </span>
+                )}
+              </button>
             </div>
 
             {/* Right Tab Content Block */}
@@ -364,7 +438,7 @@ export default function AdminPanel({
                 <div className="space-y-4">
                   <h4 className="text-sm font-black text-slate-800 uppercase tracking-widest mb-4">Edit Hero & Credentials</h4>
                   
-                  <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
+                  <div className="grid grid-cols-1 gap-4">
                     <div>
                       <label className="block text-[11px] font-bold text-slate-400 uppercase mb-1">Full Name</label>
                       <input
@@ -374,14 +448,69 @@ export default function AdminPanel({
                         className="w-full bg-slate-50 border border-slate-200 rounded-xl px-3 py-2 text-xs focus:ring-1 focus:ring-indigo-500 focus:outline-none"
                       />
                     </div>
-                    <div>
-                      <label className="block text-[11px] font-bold text-slate-400 uppercase mb-1">Portrait Image URL</label>
-                      <input
-                        type="text"
-                        value={tempData.personalInfo.portraitUrl}
-                        onChange={(e) => updatePersonalInfo('portraitUrl', e.target.value)}
-                        className="w-full bg-slate-50 border border-slate-200 rounded-xl px-3 py-2 text-xs focus:ring-1 focus:ring-indigo-500 focus:outline-none"
-                      />
+
+                    <div className="bg-slate-50/55 border border-slate-200/80 rounded-2xl p-4 flex flex-col sm:flex-row items-center gap-4">
+                      <div className="relative shrink-0 w-20 h-20 rounded-2xl border border-slate-200 bg-white overflow-hidden flex items-center justify-center">
+                        {tempData.personalInfo.portraitUrl ? (
+                          <img 
+                            src={tempData.personalInfo.portraitUrl} 
+                            alt="Portrait Preview" 
+                            className="w-full h-full object-cover" 
+                            onError={(e) => {
+                              e.currentTarget.style.display = 'none';
+                              const fallback = e.currentTarget.nextElementSibling as HTMLElement;
+                              if (fallback) fallback.style.display = 'flex';
+                            }}
+                          />
+                        ) : null}
+                        <div 
+                          className="absolute inset-0 flex items-center justify-center bg-slate-50 text-slate-400 font-bold"
+                          style={{ display: tempData.personalInfo.portraitUrl ? 'none' : 'flex' }}
+                        >
+                          <ImageIcon className="w-6 h-6 text-slate-350" />
+                        </div>
+                      </div>
+
+                      <div className="flex-1 space-y-1.5 text-center sm:text-left w-full">
+                        <label className="block text-[11px] font-black text-slate-500 uppercase tracking-wider">Portrait Image</label>
+                        <p className="text-[10px] text-slate-400 font-semibold leading-relaxed">
+                          Upload your high-resolution portrait file (PNG, JPG, SVG, WebP). It converts to Base64 instantly to save directly inside your local browser database.
+                        </p>
+                        
+                        <div className="pt-1.5 flex flex-wrap gap-2.5 justify-center sm:justify-start">
+                          <label className="cursor-pointer bg-indigo-600 hover:bg-indigo-700 text-white font-extrabold text-[11px] px-4 py-2 rounded-xl transition-all shadow-md shadow-indigo-500/10 hover:scale-[1.01] flex items-center gap-2">
+                            <Upload className="w-3.5 h-3.5" />
+                            <span>Select Portrait Image</span>
+                            <input 
+                              type="file" 
+                              accept="image/*" 
+                              className="hidden" 
+                              onChange={(e) => {
+                                const file = e.target.files?.[0];
+                                if (file) {
+                                  const reader = new FileReader();
+                                  reader.onloadend = () => {
+                                    if (typeof reader.result === 'string') {
+                                      updatePersonalInfo('portraitUrl', reader.result);
+                                    }
+                                  };
+                                  reader.readAsDataURL(file);
+                                }
+                              }}
+                            />
+                          </label>
+
+                          {tempData.personalInfo.portraitUrl && (
+                            <button
+                              type="button"
+                              onClick={() => updatePersonalInfo('portraitUrl', '')}
+                              className="bg-white hover:bg-slate-100 text-rose-600 border border-slate-200 font-extrabold text-[11px] px-3.5 py-2 rounded-xl transition-all shadow-xs cursor-pointer"
+                            >
+                              Reset Image
+                            </button>
+                          )}
+                        </div>
+                      </div>
                     </div>
                   </div>
 
@@ -849,6 +978,82 @@ export default function AdminPanel({
                       </div>
                     </div>
                   ))}
+                </div>
+              )}
+
+              {activeTab === 'messages' && (
+                <div className="space-y-4">
+                  <div className="flex justify-between items-center mb-4">
+                    <div>
+                      <h4 className="text-sm font-black text-slate-800 uppercase tracking-widest">Contact Form Inbox</h4>
+                      <p className="text-[11px] text-slate-400 mt-1 font-semibold">
+                        Real-time visitor message details captured from the public portfolio contact form.
+                      </p>
+                    </div>
+                    {messages.length > 0 && (
+                      <button
+                        onClick={handleClearAllMessages}
+                        className="px-3 py-1.5 bg-rose-50 hover:bg-rose-100 text-rose-600 border border-rose-100 rounded-xl text-xs font-bold transition-all flex items-center gap-1.5 cursor-pointer"
+                      >
+                        <Trash2 className="w-3.5 h-3.5" />
+                        <span>Clear All Logs</span>
+                      </button>
+                    )}
+                  </div>
+
+                  {messages.length === 0 ? (
+                    <div className="flex flex-col items-center justify-center p-12 text-center border border-dashed border-slate-200 rounded-2xl bg-slate-50/50">
+                      <div className="w-12 h-12 bg-slate-100 rounded-2xl flex items-center justify-center text-slate-400 mb-4 border border-slate-200/50">
+                        <MessageSquare className="w-6 h-6" />
+                      </div>
+                      <h5 className="font-extrabold text-slate-700 text-sm">No Messages Yet</h5>
+                      <p className="text-xs text-slate-400 mt-1.5 max-w-xs leading-relaxed font-mono">
+                        Submit a query through the public contact form at the bottom of the page, and the details will instantly materialize in this inbox!
+                      </p>
+                    </div>
+                  ) : (
+                    <div className="space-y-4">
+                      {messages.map((msg) => (
+                        <div key={msg.id} className="bg-slate-50/70 border border-slate-200/80 rounded-2xl p-4 md:p-5 relative transition-all hover:bg-slate-50">
+                          <button
+                            onClick={() => handleDeleteMessage(msg.id)}
+                            className="absolute right-4 top-4 text-slate-400 hover:text-rose-500 p-1.5 bg-white hover:bg-rose-50 rounded-xl border border-slate-200/60 shadow-xs cursor-pointer"
+                            title="Delete this message"
+                          >
+                            <Trash2 className="w-3.5 h-3.5" />
+                          </button>
+
+                          <div className="flex flex-wrap items-center gap-x-3 gap-y-1 mb-3 pr-8">
+                            <span className="font-extrabold text-slate-900 text-sm">{msg.name}</span>
+                            <span className="text-slate-300 hidden sm:inline">|</span>
+                            <a href={`mailto:${msg.email}`} className="text-xs text-indigo-600 hover:underline font-bold">
+                              {msg.email}
+                            </a>
+                            <span className="text-slate-300 hidden sm:inline">|</span>
+                            <span className="text-[10px] text-slate-450 font-mono">
+                              {new Date(msg.timestamp).toLocaleString(undefined, {
+                                year: 'numeric',
+                                month: 'short',
+                                day: 'numeric',
+                                hour: '2-digit',
+                                minute: '2-digit'
+                              })}
+                            </span>
+                          </div>
+
+                          <div className="space-y-1.5">
+                            <div className="text-xs text-slate-500 uppercase tracking-wider font-extrabold flex items-center gap-1.5">
+                              <span className="w-1 h-1 rounded-full bg-emerald-500 animate-pulse"></span> Subject: <strong className="text-slate-800 normal-case font-extrabold">{msg.subject}</strong>
+                            </div>
+                            
+                            <div className="bg-white border border-slate-200/60 p-3 md:p-4 rounded-xl mt-2 text-xs text-slate-700 leading-relaxed font-mono whitespace-pre-wrap">
+                              {msg.message}
+                            </div>
+                          </div>
+                        </div>
+                      ))}
+                    </div>
+                  )}
                 </div>
               )}
 
