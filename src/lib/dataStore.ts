@@ -89,7 +89,7 @@ export const INITIAL_PORTFOLIO_DATA: PortfolioData = {
     linkedin: 'https://www.linkedin.com/in/asktayyab/',
     basis: 'Pakistan',
     educationGrade: 'DAE CIT Professional',
-    liveBacklinksCount: '50+',
+    liveBacklinksCount: '500+',
     webSystemsCount: '05+',
     successRate: '100%'
   },
