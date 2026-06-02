@@ -150,7 +150,7 @@ export default function Hero({ personalInfo, onNavigate, onOpenCv }: HeroProps) 
             {/* Inner frame containing his real portrait */}
             <div className="w-full h-full rounded-[2rem] overflow-hidden relative border border-slate-100 dark:border-slate-800 bg-slate-50 dark:bg-slate-[950] group">
               <img
-                src={portraitImg}
+                src={personalInfo.portraitUrl || portraitImg}
                 alt={personalInfo.name}
                 referrerPolicy="no-referrer"
                 onError={(e) => {

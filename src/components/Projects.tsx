@@ -33,12 +33,7 @@ interface ProjectsProps {
 
 export default function Projects({ projects }: ProjectsProps) {
   // Navigation Tabs at the top
-  const [currentTab, setCurrentTab] = useState<'showroom' | 'grid' | 'planner'>('showroom');
-  const [activeProject, setActiveProject] = useState<string>('');
-
-  // Search & Filtering States for Grid View
-  const [searchQuery, setSearchQuery] = useState('');
-  const [selectedTech, setSelectedTech] = useState<string>('All');
+  const [currentTab, setCurrentTab] = useState<'showroom' | 'planner'>('showroom');
 
   // Interactive SEO Calculator tool states
   const [currentDA, setCurrentDA] = useState<number>(15);
@@ -48,27 +43,6 @@ export default function Projects({ projects }: ProjectsProps) {
   const [isCalculating, setIsCalculating] = useState<boolean>(false);
   const [calculatedStrategy, setCalculatedStrategy] = useState<any>(null);
   const [copiedTemplate, setCopiedTemplate] = useState<boolean>(false);
-
-  // Fallback to first project on load/change
-  useEffect(() => {
-    if (projects && projects.length > 0) {
-      if (!activeProject || !projects.some(p => p.id === activeProject)) {
-        setActiveProject(projects[0].id);
-      }
-    }
-  }, [projects, activeProject]);
-
-  // Unique technologies list from the projects database
-  const availableTechs = ['All', ...Array.from(new Set(projects.flatMap(p => p.tech)))];
-
-  // Filtered projects for the Dynamic Card Grid
-  const filteredProjects = projects.filter(proj => {
-    const matchesSearch = proj.title.toLowerCase().includes(searchQuery.toLowerCase()) || 
-                          proj.description.toLowerCase().includes(searchQuery.toLowerCase()) ||
-                          proj.category.toLowerCase().includes(searchQuery.toLowerCase());
-    const matchesTech = selectedTech === 'All' || proj.tech.includes(selectedTech);
-    return matchesSearch && matchesTech;
-  });
 
   // Calculate high-impact SEO roadmap
   const handleCalculateSEO = (e: React.FormEvent) => {
@@ -169,7 +143,7 @@ SEO Outreach Lead`;
             Proof of Practical Engineering
           </h3>
           <p className="text-slate-500 dark:text-slate-400 max-w-2xl mt-4 text-xs md:text-sm font-medium leading-relaxed">
-            Toggle between the interactive live showroom, the fully search-enabled web platform cards, and a custom build of the live outreach strategy simulator.
+            Explore my live interactive showroom showcase and execute simulated organic search formula calibrations with dynamic SEO router tools.
           </p>
         </div>
 
@@ -186,17 +160,6 @@ SEO Outreach Lead`;
             >
               <Monitor className="w-4 h-4" />
               <span>Showroom Showcase</span>
-            </button>
-            <button
-              onClick={() => setCurrentTab('grid')}
-              className={`flex items-center gap-2 px-4 py-2.5 rounded-xl text-xs sm:text-sm font-bold transition-all cursor-pointer ${
-                currentTab === 'grid'
-                  ? 'bg-emerald-600 dark:bg-emerald-500 text-white shadow-md'
-                  : 'text-slate-500 dark:text-slate-400 hover:text-slate-900 dark:hover:text-slate-200 hover:bg-slate-50 dark:hover:bg-slate-900'
-              }`}
-            >
-              <LayoutGrid className="w-4 h-4" />
-              <span>Interactive Card Grid</span>
             </button>
             <button
               onClick={() => setCurrentTab('planner')}
@@ -218,58 +181,18 @@ SEO Outreach Lead`;
         {/* Tab content panel */}
         <div className="min-h-[500px]" id="portfolio-tab-view-root">
           
-          {/* TAB 1: SHOWROOM Spotlight Showcase (Tabs matching active projects) */}
+          {/* TAB 1: SHOWROOM Spotlight Showcase (Both projects shown side-by-side or stacked) */}
           {currentTab === 'showroom' && (
-            <div className="bg-white dark:bg-slate-900 border border-slate-205/30 dark:border-slate-800 rounded-[2.5rem] p-6 md:p-10 shadow-xl shadow-slate-200/50 dark:shadow-none overflow-hidden" id="showroom-tab-content">
+            <div className="space-y-12" id="showroom-tab-content">
               
-              {/* Internal horizontal selector */}
-              <div className="flex justify-center mb-10" id="showroom-app-selector">
-                <div className="hidden sm:flex bg-slate-50 dark:bg-slate-950 border border-slate-200/50 dark:border-slate-850 p-1 rounded-xl gap-1">
-                  {projects.map((proj) => (
-                    <button
-                      key={proj.id}
-                      onClick={() => setActiveProject(proj.id)}
-                      className={`px-4 py-2 rounded-lg text-xs font-bold transition-all cursor-pointer ${
-                        activeProject === proj.id
-                          ? 'bg-white dark:bg-slate-900 text-emerald-600 dark:text-emerald-400 border border-slate-200/30 dark:border-slate-800 shadow-xs'
-                          : 'text-slate-500 dark:text-slate-400 hover:text-slate-800 dark:hover:text-slate-200'
-                      }`}
-                    >
-                      {proj.title}
-                    </button>
-                  ))}
-                </div>
-
-                {/* Mobile Selector Dropdown */}
-                <div className="flex sm:hidden w-full max-w-sm flex-col relative" id="mobile-showroom-selector">
-                  <select
-                    value={activeProject}
-                    onChange={(e) => setActiveProject(e.target.value)}
-                    className="w-full bg-slate-50 dark:bg-slate-950 border border-slate-200 px-4 py-3 rounded-xl text-xs font-bold text-slate-800 dark:text-slate-100 focus:outline-none appearance-none cursor-pointer"
-                    aria-label="Toggle live browser site"
-                  >
-                    {projects.map((proj) => (
-                      <option key={proj.id} value={proj.id}>
-                        {proj.title} ({proj.category})
-                      </option>
-                    ))}
-                  </select>
-                </div>
-              </div>
-
-              {/* Spotlight Display */}
-              <AnimatePresence mode="wait">
-                {projects.filter(p => p.id === activeProject).map((proj) => (
-                  <motion.div
-                    key={proj.id}
-                    initial={{ opacity: 0, scale: 0.98, y: 15 }}
-                    animate={{ opacity: 1, scale: 1, y: 0 }}
-                    exit={{ opacity: 0, scale: 0.98, y: -15 }}
-                    transition={{ duration: 0.35, ease: "easeOut" }}
-                    className="grid grid-cols-1 lg:grid-cols-12 gap-8 md:gap-12"
-                  >
-                    {/* Mockup Window */}
-                    <div className="lg:col-span-7 flex flex-col justify-center">
+              {projects.map((proj, projIdx) => (
+                <div 
+                  key={proj.id} 
+                  className="bg-white dark:bg-slate-900 border border-slate-205/30 dark:border-slate-800 rounded-[2.5rem] p-6 lg:p-10 shadow-xl shadow-slate-200/50 dark:shadow-none overflow-hidden"
+                >
+                  <div className="grid grid-cols-1 lg:grid-cols-12 gap-8 md:gap-12">
+                    {/* Mockup Window - Alternating order on large screens for dynamic visual rhythm */}
+                    <div className={`lg:col-span-7 flex flex-col justify-center ${projIdx % 2 === 1 ? 'lg:order-last' : ''}`}>
                       <div className="relative group overflow-hidden rounded-2xl md:rounded-3xl border border-slate-200 dark:border-slate-850 bg-slate-50 dark:bg-slate-950 shadow-lg">
                         <div className="bg-slate-100 dark:bg-slate-950 px-4 py-2.5 flex items-center gap-2 border-b border-slate-200 dark:border-slate-850">
                           <div className="w-2.5 h-2.5 rounded-full bg-rose-500" />
@@ -290,14 +213,14 @@ SEO Outreach Lead`;
                           className="w-full h-auto aspect-[16/10] object-cover hover:scale-[1.01] transition-transform duration-500" 
                         />
 
-                        <div className="absolute inset-x-0 bottom-0 h-1/4 bg-gradient-to-t from-black/20 to-transparent flex items-end p-4 pointer-events-none">
-                          <span className="text-[10px] md:text-xs text-white/90 font-mono bg-emerald-950/90 dark:bg-emerald-950/80 backdrop-blur-xs px-2.5 py-1 rounded-md">Vibe-Coded Frontend Solution</span>
+                        <div className="absolute inset-x-0 bottom-0 h-1/4 bg-gradient-to-t from-black/25 to-transparent flex items-end p-4 pointer-events-none">
+                          <span className="text-[10px] md:text-xs text-white/95 font-mono bg-emerald-950/90 dark:bg-emerald-950/80 backdrop-blur-xs px-2.5 py-1 rounded-md">Vibe-Coded Frontend Solution</span>
                         </div>
                       </div>
                     </div>
 
                     {/* Details section */}
-                    <div className="lg:col-span-5 flex flex-col justify-between" id="project-showroom-info">
+                    <div className="lg:col-span-5 flex flex-col justify-between" id={`project-showroom-info-${proj.id}`}>
                       <div>
                         <span className="text-xs font-bold text-emerald-600 dark:text-emerald-400 bg-emerald-50 dark:bg-emerald-950/40 border border-emerald-100 dark:border-emerald-900/50 px-3 py-1 rounded-full uppercase tracking-wider mb-4 inline-block">
                           {proj.category}
@@ -305,16 +228,16 @@ SEO Outreach Lead`;
                         <h4 className="text-2xl md:text-3xl font-black text-slate-900 dark:text-slate-100 tracking-tight mt-1 mb-3">
                           {proj.title}
                         </h4>
-                        <p className="text-slate-650 dark:text-slate-350 text-xs md:text-sm leading-relaxed mb-6 font-medium">
+                        <p className="text-slate-650 dark:text-slate-350 text-xs md:text-sm leading-relaxed mb-6 font-medium font-sans">
                           {proj.description}
                         </p>
 
-                        <div className="space-y-2 mb-8" id="showroom-features-checklist">
+                        <div className="space-y-4 mb-8" id={`showroom-features-checklist-${proj.id}`}>
                           <p className="text-[10px] uppercase font-bold text-slate-400 dark:text-slate-500 tracking-wider">Features Checklist:</p>
                           {proj.features.map((feat, index) => (
                             <div key={index} className="flex gap-2.5 items-start">
                               <CheckCircle2 className="w-4 h-4 text-emerald-600 dark:text-emerald-400 shrink-0 mt-0.5" />
-                              <span className="text-xs text-slate-700 dark:text-slate-300 font-bold">{feat}</span>
+                              <span className="text-xs text-slate-705 dark:text-slate-300 font-bold">{feat}</span>
                             </div>
                           ))}
                         </div>
@@ -344,180 +267,13 @@ SEO Outreach Lead`;
                         </a>
                       </div>
                     </div>
-                  </motion.div>
-                ))}
-              </AnimatePresence>
-            </div>
-          )}
-
-          {/* TAB 2: INTERACTIVE CARD GRID (Staggered Fade-in & Slide-up Animations) */}
-          {currentTab === 'grid' && (
-            <div className="space-y-8" id="grid-tab-content">
-              
-              {/* Interactive Search Tool & Filters */}
-              <div className="bg-white dark:bg-slate-900 border border-slate-200/80 dark:border-slate-850 p-5 rounded-3xl flex flex-col md:flex-row justify-between items-center gap-4 shadow-sm">
-                <div className="relative w-full md:w-80">
-                  <span className="absolute inset-y-0 left-0 flex items-center pl-3.5 pointer-events-none text-slate-400">
-                    <Search className="w-4 h-4" />
-                  </span>
-                  <input
-                    type="text"
-                    value={searchQuery}
-                    onChange={(e) => setSearchQuery(e.target.value)}
-                    placeholder="Search systems & code features..."
-                    className="w-full bg-slate-50 dark:bg-slate-950 border border-slate-200 dark:border-slate-800 rounded-xl pl-10 pr-4 py-2.5 text-xs font-bold text-slate-800 dark:text-slate-100 focus:outline-none focus:ring-2 focus:ring-emerald-500/50 placeholder-slate-400 font-sans"
-                  />
-                </div>
-
-                <div className="flex flex-wrap items-center gap-2 w-full md:w-auto" id="grid-filter-chips">
-                  <span className="text-[10px] uppercase font-black text-slate-400 dark:text-slate-500 flex items-center gap-1.5 mr-2">
-                    <SlidersHorizontal className="w-3 h-3" /> Filter Framework:
-                  </span>
-                  {availableTechs.map((tech) => (
-                    <button
-                      key={tech}
-                      onClick={() => setSelectedTech(tech)}
-                      className={`px-3 py-1.5 rounded-lg text-xs font-extrabold transition-all cursor-pointer border ${
-                        selectedTech === tech
-                          ? 'bg-emerald-50 dark:bg-emerald-900/25 border-emerald-500 text-emerald-600 dark:text-emerald-400 font-black'
-                          : 'bg-slate-50 dark:bg-slate-950 border-slate-200 dark:border-slate-850 text-slate-500 hover:text-slate-800 dark:hover:text-slate-200'
-                      }`}
-                    >
-                      {tech}
-                    </button>
-                  ))}
-                </div>
-              </div>
-
-              {/* Cards Grid wrapper with Staggered animations */}
-              {filteredProjects.length > 0 ? (
-                <motion.div 
-                  variants={{
-                    hidden: { opacity: 0 },
-                    show: {
-                      opacity: 1,
-                      transition: {
-                        staggerChildren: 0.15
-                      }
-                    }
-                  }}
-                  initial="hidden"
-                  animate="show"
-                  className="grid grid-cols-1 md:grid-cols-2 gap-8"
-                  id="portfolio-cards-grid-list"
-                >
-                  {filteredProjects.map((proj) => (
-                    <motion.div
-                      key={proj.id}
-                      variants={{
-                        hidden: { opacity: 0, y: 35 },
-                        show: { 
-                          opacity: 1, 
-                          y: 0,
-                          transition: {
-                            type: "spring",
-                            stiffness: 90,
-                            damping: 15
-                          }
-                        }
-                      }}
-                      className="group bg-white dark:bg-slate-900 border border-slate-200/80 dark:border-slate-800 rounded-3xl overflow-hidden flex flex-col justify-between hover:border-emerald-600/30 dark:hover:border-emerald-500/30 shadow-md hover:shadow-lg dark:hover:shadow-none transition-all duration-300 relative"
-                    >
-                      <div>
-                        {/* Mockup header */}
-                        <div className="bg-slate-50 dark:bg-slate-950 px-4 py-2.5 flex justify-between items-center border-b border-slate-200 dark:border-slate-800">
-                          <div className="flex gap-1.5">
-                            <div className="w-2 h-2 rounded-full bg-slate-300 dark:bg-slate-800" />
-                            <div className="w-2 h-2 rounded-full bg-slate-300 dark:bg-slate-800" />
-                            <div className="w-2 h-2 rounded-full bg-slate-300 dark:bg-slate-800" />
-                          </div>
-                          <span className="text-[9px] font-mono font-bold text-slate-400 dark:text-slate-500">
-                            {proj.category}
-                          </span>
-                        </div>
-
-                        {/* Image banner */}
-                        <div className="relative aspect-[16/10] overflow-hidden bg-slate-100 dark:bg-slate-950">
-                          <img
-                            src={projectImages[proj.id] || proj.imageSrc}
-                            alt={proj.title}
-                            className="w-full h-full object-cover group-hover:scale-[1.01] transition-transform duration-500"
-                            referrerPolicy="no-referrer"
-                            onError={(e) => {
-                              e.currentTarget.src = "https://images.unsplash.com/photo-1551288049-bebda4e38f71?q=80&w=700&auto=format&fit=crop";
-                            }}
-                          />
-                          <div className="absolute top-3 left-3">
-                            <span className="bg-slate-900/80 dark:bg-slate-950/80 text-[10px] font-extrabold tracking-wide text-emerald-400 px-3 py-1 rounded-md backdrop-blur-xs">
-                              {proj.category}
-                            </span>
-                          </div>
-                        </div>
-
-                        {/* Card copy */}
-                        <div className="p-6 md:p-8">
-                          <h4 className="text-xl font-bold text-slate-900 dark:text-slate-100 group-hover:text-emerald-600 dark:group-hover:text-emerald-400 transition-colors mb-2.5">
-                            {proj.title}
-                          </h4>
-                          <p className="text-slate-550 dark:text-slate-350 text-xs md:text-sm leading-relaxed mb-6 font-medium">
-                            {proj.description}
-                          </p>
-
-                          {/* Quick checklist */}
-                          <div className="space-y-1.5 mb-6">
-                            {proj.features.slice(0, 3).map((feat, idx) => (
-                              <div key={idx} className="flex gap-2 items-start">
-                                <CheckCircle2 className="w-3.5 h-3.5 text-emerald-500 shrink-0 mt-0.5" />
-                                <span className="text-xs text-slate-600 dark:text-slate-300 font-medium truncate">{feat}</span>
-                              </div>
-                            ))}
-                            {proj.features.length > 3 && (
-                              <p className="text-[10px] text-slate-400 dark:text-slate-500 font-extrabold italic pl-5">
-                                + {proj.features.length - 3} additional features integrated
-                              </p>
-                            )}
-                          </div>
-
-                          {/* Tech badges */}
-                          <div className="flex flex-wrap gap-1.5 pt-4 border-t border-slate-100 dark:border-slate-805">
-                            {proj.tech.map((t, idx) => (
-                              <span
-                                key={idx}
-                                className="bg-slate-50 dark:bg-slate-950 text-slate-500 dark:text-slate-400 text-[9px] font-black uppercase px-2 py-1 rounded border border-slate-205/60 dark:border-slate-805"
-                              >
-                                {t}
-                              </span>
-                            ))}
-                          </div>
-                        </div>
-                      </div>
-
-                      {/* Card Button footer */}
-                      <div className="p-6 border-t border-slate-50 dark:border-slate-805/50 bg-slate-50/50 dark:bg-slate-950/20">
-                        <a
-                          href={proj.liveLink}
-                          target="_blank"
-                          referrerPolicy="no-referrer"
-                          className="w-full flex items-center justify-center gap-2 bg-emerald-600 hover:bg-emerald-505 text-white py-3 px-5 rounded-xl font-bold text-xs shadow-sm hover:scale-[1.01] transition-all"
-                        >
-                          <span>Explore App Preview</span>
-                          <ExternalLink className="w-4 h-4" />
-                        </a>
-                      </div>
-                    </motion.div>
-                  ))}
-                </motion.div>
-              ) : (
-                <div className="bg-white dark:bg-slate-900 border border-slate-200 dark:border-slate-800 rounded-3xl p-12 text-center" id="cards-grid-empty">
-                  <div className="w-12 h-12 rounded-full bg-slate-100 dark:bg-slate-950 border border-slate-200 dark:border-slate-800 flex items-center justify-center mx-auto mb-4">
-                    <SlidersHorizontal className="w-5 h-5 text-slate-400" />
                   </div>
-                  <h4 className="text-base font-bold text-slate-800 dark:text-slate-100">No projects found</h4>
-                  <p className="text-slate-500 dark:text-slate-400 text-xs mt-1">Try relaxing your search terms or active technology filter settings.</p>
                 </div>
-              )}
+              ))}
             </div>
           )}
+
+
 
           {/* TAB 3: INTERACTIVE SEO OUTREACH HIGH-DA STRATEGY PLANNER */}
           {currentTab === 'planner' && (
@@ -660,31 +416,7 @@ SEO Outreach Lead`;
                         </p>
                       </div>
 
-                      {/* Cold outreach template */}
-                      <div className="space-y-2">
-                        <div className="flex justify-between items-center">
-                          <p className="text-[9px] uppercase font-bold text-slate-450 dark:text-slate-550 tracking-wider">Custom Outreach Guest Post Template:</p>
-                          <button
-                            onClick={() => copyToClipboard(calculatedStrategy.template)}
-                            className="text-[10px] font-bold text-emerald-600 dark:text-emerald-400 flex items-center gap-1 hover:underline cursor-pointer"
-                          >
-                            {copiedTemplate ? (
-                              <>
-                                <Check className="w-3 h-3" />
-                                <span>Copied!</span>
-                              </>
-                            ) : (
-                              <>
-                                <Copy className="w-3 h-3" />
-                                <span>Copy Draft Pitch</span>
-                              </>
-                            )}
-                          </button>
-                        </div>
-                        <div className="bg-slate-100 dark:bg-slate-900 border border-slate-200 dark:border-slate-800 rounded-xl p-4 font-mono text-[10px] text-slate-600 dark:text-slate-400 max-h-40 overflow-y-auto whitespace-pre-wrap leading-relaxed relative">
-                          {calculatedStrategy.template}
-                        </div>
-                      </div>
+
                     </motion.div>
                   ) : (
                     <div className="text-center py-6" id="seo-planner-initial-state">
