@@ -149,15 +149,15 @@ export default function Hero({ personalInfo, onNavigate, onOpenCv }: HeroProps) 
 
             {/* Inner frame containing his real portrait */}
             <div className="w-full h-full rounded-[2rem] overflow-hidden relative border border-slate-100 dark:border-slate-800 bg-slate-50 dark:bg-slate-[950] group">
-              <img
-                src={personalInfo.portraitUrl || portraitImg}
-                alt={personalInfo.name}
-                referrerPolicy="no-referrer"
-                onError={(e) => {
-                  // Elegant fallback avatar card if generated image does not resolve
-e.currentTarget.src = "/assets/images/tayyab_portrait_1780392340788.png";                }}
-                className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-700"
-              />
+             <img
+  src={personalInfo.portraitUrl || portraitImg}
+  alt={personalInfo.name}
+  referrerPolicy="no-referrer"
+  onError={(e) => {
+    e.currentTarget.src = portraitImg;
+  }}
+  className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-700"
+/>
               {/* Bottom tag over portrait */}
               <div className="absolute bottom-4 left-4 right-4 bg-white/90 dark:bg-slate-900/90 border border-slate-200/60 dark:border-slate-800 rounded-xl px-4 py-2.5 text-center shadow-lg">
                 <p className="text-xs font-extrabold text-slate-900 dark:text-slate-100">Based in {personalInfo.basis}</p>
