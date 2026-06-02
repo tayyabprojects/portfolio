@@ -1,4 +1,4 @@
-import { Linkedin, Mail, ArrowUp } from 'lucide-react';
+import { Linkedin, Mail, ArrowUp, Github } from 'lucide-react';
 
 interface FooterProps {
   onScrollToTop: () => void;
@@ -38,6 +38,15 @@ export default function Footer({ onScrollToTop, onOpenAdmin }: FooterProps) {
             className="w-8 h-8 rounded-full bg-white dark:bg-slate-900 border border-slate-200 dark:border-slate-800 flex items-center justify-center hover:bg-slate-100 dark:hover:bg-slate-800 hover:text-emerald-655 dark:hover:text-emerald-400 transition-all text-slate-505 dark:text-slate-400 shadow-xs"
           >
             <Linkedin className="w-4 h-4" />
+          </a>
+          <a
+            href="https://github.com/tayyabprojects"
+            target="_blank"
+            referrerPolicy="no-referrer"
+            title="GitHub profile"
+            className="w-8 h-8 rounded-full bg-white dark:bg-slate-900 border border-slate-200 dark:border-slate-800 flex items-center justify-center hover:bg-slate-100 dark:hover:bg-slate-800 hover:text-emerald-655 dark:hover:text-emerald-400 transition-all text-slate-505 dark:text-slate-400 shadow-xs"
+          >
+            <Github className="w-4 h-4" />
           </a>
           <a
             href="mailto:seomatayyab@gmail.com"

@@ -1,5 +1,5 @@
 import { useState, useEffect } from 'react';
-import { ExternalLink, Github, CheckCircle2 } from 'lucide-react';
+import { ExternalLink, CheckCircle2 } from 'lucide-react';
 import { motion, AnimatePresence } from 'motion/react';
 import { ProjectData } from '../lib/dataStore';
 
@@ -175,12 +175,12 @@ export default function Projects({ projects }: ProjectsProps) {
                   </div>
 
                   {/* Call To Actions */}
-                  <div className="flex gap-3 mt-4 border-t border-slate-100 dark:border-slate-800 pt-6 w-full">
+                  <div className="flex flex-col sm:flex-row gap-3 mt-4 border-t border-slate-100 dark:border-slate-800 pt-6 w-full">
                     <a
                       href={proj.liveLink}
                       target="_blank"
                       referrerPolicy="no-referrer"
-                      className="w-full flex items-center justify-center gap-2 bg-emerald-600 hover:bg-emerald-505 text-white py-3.5 px-5 rounded-xl font-bold text-xs md:text-sm shadow-lg shadow-emerald-600/10 transition-all hover:scale-[1.01]"
+                      className="w-full flex items-center justify-center gap-2 bg-emerald-600 hover:bg-emerald-505 text-white py-3.5 px-5 rounded-xl font-bold text-xs md:text-sm shadow-lg shadow-emerald-100/10 transition-all hover:scale-[1.01]"
                     >
                       <span>See Preview</span>
                       <ExternalLink className="w-4 h-4" />
