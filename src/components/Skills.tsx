@@ -16,8 +16,8 @@ export default function Skills({ skillsData }: SkillsProps) {
         
         {/* Section title */}
         <div className="flex flex-col items-center text-center mb-16" id="skills-title">
-          <h2 className="text-sm font-bold uppercase tracking-widest text-[#a855f7] dark:text-[#c084fc] mb-2 flex items-center gap-2">
-            <span className="w-1.5 h-1.5 rounded-full bg-[#a855f7] dark:bg-[#c084fc]"></span> My Stack & Skills
+          <h2 className="text-sm font-bold uppercase tracking-widest text-emerald-600 dark:text-emerald-400 mb-2 flex items-center gap-2">
+            <span className="w-1.5 h-1.5 rounded-full bg-emerald-600 dark:bg-emerald-400"></span> My Stack & Skills
           </h2>
           <h3 className="text-3xl md:text-4xl font-extrabold text-slate-900 dark:text-slate-100 tracking-tight">
             Comprehensive Digital Capabilities
@@ -31,15 +31,15 @@ export default function Skills({ skillsData }: SkillsProps) {
         <div className="grid grid-cols-1 lg:grid-cols-3 gap-8">
           
           {/* Column 1: SEO */}
-          <div className="bg-white dark:bg-slate-900 border border-slate-200/80 dark:border-slate-800/80 rounded-3xl p-6 md:p-8 flex flex-col justify-between shadow-xl shadow-slate-100 dark:shadow-none relative group hover:border-[#6366f1]/25 transition-all duration-300">
+          <div className="bg-white dark:bg-slate-900 border border-slate-200/80 dark:border-slate-800/80 rounded-3xl p-6 md:p-8 flex flex-col justify-between shadow-xl shadow-slate-100 dark:shadow-none relative group hover:border-emerald-500/25 transition-all duration-300">
             <div>
               <div className="flex items-center gap-3 mb-6">
-                <div className="w-10 h-10 rounded-xl bg-indigo-50 dark:bg-indigo-950/40 flex items-center justify-center text-indigo-600 dark:text-indigo-400">
+                <div className="w-10 h-10 rounded-xl bg-emerald-55/10 dark:bg-emerald-950/40 flex items-center justify-center text-emerald-605 dark:text-emerald-400">
                   <Search className="w-5 h-5" />
                 </div>
                 <div>
                   <h4 className="font-extrabold text-lg text-slate-900 dark:text-slate-150">SEO & Marketing</h4>
-                  <p className="text-[10px] text-indigo-600 dark:text-indigo-400 uppercase font-bold tracking-wider">Off-page Auth & Outreach</p>
+                  <p className="text-[10px] text-emerald-600 dark:text-emerald-400 uppercase font-bold tracking-wider">Off-page Auth & Outreach</p>
                 </div>
               </div>
               
@@ -48,7 +48,7 @@ export default function Skills({ skillsData }: SkillsProps) {
                   <div key={sk.name}>
                     <div className="flex justify-between items-center text-xs text-slate-800 dark:text-slate-200 mb-1.5 font-bold">
                       <span>{sk.name}</span>
-                      <span className="text-indigo-650 dark:text-indigo-400 font-black">{sk.level}%</span>
+                      <span className="text-emerald-650 dark:text-emerald-400 font-black">{sk.level}%</span>
                     </div>
                     <div className="w-full bg-slate-100 dark:bg-slate-800 h-1.5 rounded-full overflow-hidden">
                       <motion.div 
@@ -56,7 +56,7 @@ export default function Skills({ skillsData }: SkillsProps) {
                         whileInView={{ width: `${sk.level}%` }}
                         viewport={{ once: true }}
                         transition={{ duration: 1, ease: 'easeOut' }}
-                        className="bg-indigo-600 dark:bg-indigo-550 h-full rounded-full" 
+                        className="bg-emerald-600 dark:bg-emerald-550 h-full rounded-full" 
                       />
                     </div>
                   </div>
@@ -70,15 +70,15 @@ export default function Skills({ skillsData }: SkillsProps) {
           </div>
 
           {/* Column 2: Web Dev */}
-          <div className="bg-white dark:bg-slate-900 border border-slate-200/80 dark:border-slate-800/80 rounded-3xl p-6 md:p-8 flex flex-col justify-between shadow-xl shadow-slate-100 dark:shadow-none relative group hover:border-[#a855f7]/25 transition-all duration-300">
+          <div className="bg-white dark:bg-slate-900 border border-slate-200/80 dark:border-slate-800/80 rounded-3xl p-6 md:p-8 flex flex-col justify-between shadow-xl shadow-slate-100 dark:shadow-none relative group hover:border-teal-500/25 transition-all duration-300">
             <div>
               <div className="flex items-center gap-3 mb-6">
-                <div className="w-10 h-10 rounded-xl bg-purple-50 dark:bg-purple-950/40 flex items-center justify-center text-purple-600 dark:text-purple-400">
+                <div className="w-10 h-10 rounded-xl bg-teal-55/10 dark:bg-teal-950/40 flex items-center justify-center text-teal-605 dark:text-teal-400">
                   <Code2 className="w-5 h-5" />
                 </div>
                 <div>
                   <h4 className="font-extrabold text-lg text-slate-900 dark:text-slate-150">Development Tech</h4>
-                  <p className="text-[10px] text-purple-600 dark:text-purple-400 uppercase font-bold tracking-wider">Fast Full-Stack SaaS Apps</p>
+                  <p className="text-[10px] text-teal-600 dark:text-teal-400 uppercase font-bold tracking-wider">Fast Full-Stack SaaS Apps</p>
                 </div>
               </div>
               
@@ -87,7 +87,7 @@ export default function Skills({ skillsData }: SkillsProps) {
                   <div key={sk.name}>
                     <div className="flex justify-between items-center text-xs text-slate-800 dark:text-slate-200 mb-1.5 font-bold">
                       <span>{sk.name}</span>
-                      <span className="text-purple-600 dark:text-purple-400 font-extrabold">{sk.level}%</span>
+                      <span className="text-teal-600 dark:text-teal-400 font-extrabold">{sk.level}%</span>
                     </div>
                     <div className="w-full bg-slate-100 dark:bg-slate-800 h-1.5 rounded-full overflow-hidden">
                       <motion.div 
@@ -95,7 +95,7 @@ export default function Skills({ skillsData }: SkillsProps) {
                         whileInView={{ width: `${sk.level}%` }}
                         viewport={{ once: true }}
                         transition={{ duration: 1, ease: 'easeOut' }}
-                        className="bg-purple-600 dark:bg-purple-550 h-full rounded-full" 
+                        className="bg-teal-600 dark:bg-teal-550 h-full rounded-full" 
                       />
                     </div>
                   </div>

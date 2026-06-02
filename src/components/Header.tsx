@@ -58,11 +58,11 @@ export default function Header({
           className="flex items-center gap-2 cursor-pointer group"
           id="nav-logo"
         >
-          <div className="w-8 h-8 rounded-lg bg-gradient-to-br from-indigo-500 to-purple-600 flex items-center justify-center font-bold text-white shadow-lg shadow-indigo-500/20 group-hover:scale-105 transition-transform duration-300">
+          <div className="w-8 h-8 rounded-lg bg-gradient-to-br from-emerald-500 to-teal-600 flex items-center justify-center font-bold text-white shadow-lg shadow-emerald-500/20 group-hover:scale-105 transition-transform duration-300">
             MT
           </div>
           <span className="font-bold text-base md:text-lg tracking-tight text-slate-900 dark:text-slate-100">
-            Muhammad <span className="text-indigo-600 dark:text-indigo-400 group-hover:text-indigo-500 transition-colors">Tayyab</span>
+            Muhammad <span className="text-emerald-600 dark:text-emerald-400 group-hover:text-emerald-500 transition-colors">Tayyab</span>
           </span>
         </div>
 
@@ -74,7 +74,7 @@ export default function Header({
               onClick={() => handleNavClick(item.id)}
               className={`text-sm tracking-tight cursor-pointer transition-all duration-300 relative py-1 px-2 rounded-lg ${
                 activeSection === item.id
-                  ? 'text-indigo-600 dark:text-indigo-400 font-bold bg-indigo-50/50 dark:bg-indigo-950/30'
+                  ? 'text-emerald-600 dark:text-emerald-400 font-bold bg-emerald-50/50 dark:bg-emerald-950/30'
                   : 'text-slate-500 dark:text-slate-400 hover:text-slate-900 dark:hover:text-slate-100 hover:bg-slate-50 dark:hover:bg-slate-800/50'
               }`}
             >
@@ -82,7 +82,7 @@ export default function Header({
               {activeSection === item.id && (
                 <motion.div
                   layoutId="activeDot"
-                  className="absolute -bottom-1 left-1/2 -translate-x-1/2 w-1.5 h-1.5 bg-indigo-600 dark:bg-indigo-400 rounded-full"
+                  className="absolute -bottom-1 left-1/2 -translate-x-1/2 w-1.5 h-1.5 bg-emerald-600 dark:bg-emerald-400 rounded-full"
                   transition={{ type: 'spring', stiffness: 300, damping: 30 }}
                 />
               )}
@@ -97,28 +97,28 @@ export default function Header({
             className="flex items-center gap-1.5 bg-white dark:bg-slate-800 hover:bg-slate-50 dark:hover:bg-slate-700 text-slate-750 dark:text-slate-200 px-3.5 py-1.5 rounded-full border border-slate-200 dark:border-slate-700 transition-all font-bold text-xs shadow-xs cursor-pointer"
             id="nav-cv-button"
           >
-            <FileText className="w-3.5 h-3.5 text-indigo-500 dark:text-indigo-400" />
+            <FileText className="w-3.5 h-3.5 text-emerald-500 dark:text-emerald-400" />
             <span>Resume / CV</span>
           </button>
 
           {/* Theme Switcher */}
           <button
             onClick={toggleDarkMode}
-            className="p-1.5 rounded-full border border-slate-200 dark:border-slate-850 text-slate-550 dark:text-slate-400 hover:text-[#4f46e5] dark:hover:text-[#818cf8] hover:bg-slate-50 dark:hover:bg-slate-800/40 transition-all cursor-pointer"
+            className="p-1.5 rounded-full border border-slate-200 dark:border-slate-850 text-slate-550 dark:text-slate-400 hover:text-emerald-600 dark:hover:text-emerald-400 hover:bg-slate-50 dark:hover:bg-slate-800/40 transition-all cursor-pointer"
             title={isDarkMode ? "Switch to Light Mode" : "Switch to Dark Mode"}
             aria-label="Toggle theme"
           >
-            {isDarkMode ? <Sun className="w-4 h-4 text-amber-500 animate-spin-slow" /> : <Moon className="w-4 h-4 text-indigo-600" />}
+            {isDarkMode ? <Sun className="w-4 h-4 text-amber-500 animate-spin-slow" /> : <Moon className="w-4 h-4 text-emerald-600" />}
           </button>
 
           <a
             href="https://www.linkedin.com/in/asktayyab/"
             target="_blank"
             referrerPolicy="no-referrer"
-            className="flex items-center gap-1.5 bg-indigo-50 dark:bg-indigo-950/40 hover:bg-indigo-100 dark:hover:bg-indigo-900/40 text-indigo-600 dark:text-indigo-400 px-4 py-1.5 rounded-full border border-indigo-200/50 dark:border-indigo-800/50 transition-all font-bold text-xs shadow-sm cursor-pointer"
+            className="flex items-center gap-1.5 bg-emerald-50 dark:bg-emerald-950/40 hover:bg-emerald-100 dark:hover:bg-emerald-900/40 text-emerald-600 dark:text-emerald-400 px-4 py-1.5 rounded-full border border-emerald-200/50 dark:border-emerald-800/50 transition-all font-bold text-xs shadow-sm cursor-pointer"
             id="nav-hire-badge"
           >
-            <Sparkles className="w-3.5 h-3.5 text-indigo-500 dark:text-indigo-400 animate-pulse" />
+            <Sparkles className="w-3.5 h-3.5 text-emerald-500 dark:text-emerald-400 animate-pulse" />
             <span>Available for Hire</span>
           </a>
         </div>
@@ -131,7 +131,7 @@ export default function Header({
             className="p-1.5 rounded-full border border-slate-200 dark:border-slate-800 text-slate-550 dark:text-slate-400 z-10 cursor-pointer"
             aria-label="Toggle theme"
           >
-            {isDarkMode ? <Sun className="w-4 h-4 text-amber-500" /> : <Moon className="w-4 h-4 text-indigo-600" />}
+            {isDarkMode ? <Sun className="w-4 h-4 text-amber-500" /> : <Moon className="w-4 h-4 text-emerald-600" />}
           </button>
 
           {/* Mobile Toggle */}
@@ -164,7 +164,7 @@ export default function Header({
                   onClick={() => handleNavClick(item.id)}
                   className={`text-left py-2 px-4 rounded-xl text-sm font-semibold transition-all ${
                     activeSection === item.id
-                      ? 'bg-indigo-50 dark:bg-indigo-950/40 text-indigo-650 dark:text-indigo-400 border border-indigo-100/55 dark:border-indigo-900/40'
+                      ? 'bg-emerald-50 dark:bg-emerald-950/40 text-emerald-650 dark:text-emerald-400 border border-emerald-100/55 dark:border-emerald-900/40'
                       : 'text-slate-600 dark:text-slate-300 hover:text-slate-900 dark:hover:text-white hover:bg-slate-100 dark:hover:bg-slate-800'
                   }`}
                 >
@@ -183,7 +183,7 @@ export default function Header({
                   }}
                   className="flex items-center justify-center gap-1.5 bg-slate-50 dark:bg-slate-850 hover:bg-slate-100 dark:hover:bg-slate-800 text-slate-700 dark:text-slate-200 font-bold py-2.5 rounded-xl text-xs border border-slate-200 dark:border-slate-750 transition-all cursor-pointer"
                 >
-                  <FileText className="w-4 h-4 text-indigo-500" />
+                  <FileText className="w-4 h-4 text-emerald-500" />
                   <span>Resume / CV</span>
                 </button>
 
@@ -191,7 +191,7 @@ export default function Header({
                   href="https://www.linkedin.com/in/asktayyab/"
                   target="_blank"
                   referrerPolicy="no-referrer"
-                  className="flex items-center justify-center gap-2 bg-indigo-600 hover:bg-indigo-500 text-white py-2.5 rounded-xl text-xs font-bold shadow-lg shadow-indigo-600/15 transition-all"
+                  className="flex items-center justify-center gap-2 bg-emerald-600 hover:bg-emerald-500 text-white py-2.5 rounded-xl text-xs font-bold shadow-lg shadow-emerald-600/15 transition-all"
                 >
                   <Sparkles className="w-4 h-4" />
                   <span>Hire Me</span>

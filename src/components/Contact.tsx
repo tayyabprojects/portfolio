@@ -62,14 +62,14 @@ export default function Contact() {
   return (
     <section id="contact" className="py-24 px-4 md:px-8 relative bg-slate-50 dark:bg-[#080a11] transition-colors duration-300">
       {/* Visual glowing particles background */}
-      <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-80 h-80 bg-indigo-600/5 dark:bg-indigo-500/5 blur-[120px] rounded-full pointer-events-none" />
+      <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-80 h-80 bg-emerald-600/5 dark:bg-emerald-500/5 blur-[120px] rounded-full pointer-events-none" />
 
       <div className="max-w-7xl mx-auto">
         
         {/* Section title */}
         <div className="flex flex-col items-center text-center mb-16" id="contact-title">
-          <h2 className="text-xs font-bold uppercase tracking-widest text-[#4f46e5] dark:text-indigo-400 mb-2 flex items-center gap-2">
-            <span className="w-1.5 h-1.5 rounded-full bg-[#4f46e5] dark:bg-indigo-400"></span> Contact Me
+          <h2 className="text-xs font-bold uppercase tracking-widest text-emerald-650 dark:text-emerald-400 mb-2 flex items-center gap-2">
+            <span className="w-1.5 h-1.5 rounded-full bg-emerald-600 dark:bg-emerald-400"></span> Contact Me
           </h2>
           <h3 className="text-3xl md:text-4xl font-extrabold text-slate-900 dark:text-slate-100 tracking-tight">
             Let's Orchestrate Growth
@@ -96,12 +96,12 @@ export default function Contact() {
                 
                 {/* Email Display */}
                 <div className="flex items-center gap-4 bg-slate-50/50 dark:bg-slate-950/60 border border-slate-200/80 dark:border-slate-800 p-4 rounded-2xl">
-                  <div className="w-11 h-11 bg-indigo-550/10 dark:bg-indigo-400/10 rounded-xl flex items-center justify-center text-indigo-600 dark:text-indigo-400">
+                  <div className="w-11 h-11 bg-emerald-550/10 dark:bg-emerald-400/10 rounded-xl flex items-center justify-center text-emerald-605 dark:text-emerald-400">
                     <Mail className="w-5 h-5" />
                   </div>
                   <div>
                     <p className="text-[10px] text-slate-450 dark:text-slate-500 font-black uppercase tracking-wide">Write an Email</p>
-                    <a href={`mailto:${emailAddress}`} className="text-sm font-black text-slate-800 dark:text-slate-200 hover:text-indigo-600 dark:hover:text-indigo-400 transition-colors">
+                    <a href={`mailto:${emailAddress}`} className="text-sm font-black text-slate-800 dark:text-slate-200 hover:text-emerald-600 dark:hover:text-emerald-400 transition-colors">
                       {emailAddress}
                     </a>
                   </div>
@@ -122,12 +122,12 @@ export default function Contact() {
 
                 {/* LinkedIn Badge */}
                 <div className="flex items-center gap-4 bg-slate-50/50 dark:bg-slate-950/60 border border-slate-200/80 dark:border-slate-800 p-4 rounded-2xl">
-                  <div className="w-11 h-11 bg-blue-550/10 dark:bg-blue-400/10 rounded-xl flex items-center justify-center text-blue-600 dark:text-blue-400">
+                  <div className="w-11 h-11 bg-teal-550/10 dark:bg-teal-400/10 rounded-xl flex items-center justify-center text-teal-605 dark:text-teal-400">
                     <Linkedin className="w-5 h-5" />
                   </div>
                   <div>
                     <p className="text-[10px] text-slate-450 dark:text-slate-500 font-black uppercase tracking-wide">Professional Profile</p>
-                    <a href={linkedInLink} target="_blank" referrerPolicy="no-referrer" className="text-sm font-black text-indigo-600 dark:text-indigo-300 hover:text-indigo-500 transition-colors">
+                    <a href={linkedInLink} target="_blank" referrerPolicy="no-referrer" className="text-sm font-black text-emerald-600 dark:text-emerald-300 hover:text-emerald-500 transition-colors">
                       linkedin.com/in/asktayyab
                     </a>
                   </div>
@@ -137,14 +137,14 @@ export default function Contact() {
             </div>
 
             {/* Response speed Guarantee */}
-            <div className="bg-gradient-to-br from-indigo-50 to-purple-50 dark:from-indigo-950/15 dark:to-purple-950/15 border border-indigo-100 dark:border-indigo-900/50 rounded-3xl p-6 relative overflow-hidden">
-              <div className="absolute top-0 right-0 w-24 h-24 bg-indigo-500/[0.02]" />
+            <div className="bg-gradient-to-br from-emerald-50 to-teal-50 dark:from-emerald-950/15 dark:to-teal-950/15 border border-emerald-100 dark:border-emerald-900/50 rounded-3xl p-6 relative overflow-hidden">
+              <div className="absolute top-0 right-0 w-24 h-24 bg-emerald-500/[0.02]" />
               <div className="flex items-center gap-2 mb-2">
-                <Sparkles className="w-5 h-5 text-indigo-600 dark:text-indigo-400 animate-spin" style={{ animationDuration: '6s' }} />
+                <Sparkles className="w-5 h-5 text-emerald-600 dark:text-emerald-400 animate-spin" style={{ animationDuration: '6s' }} />
                 <h5 className="font-extrabold text-slate-900 dark:text-slate-200 text-xs md:text-sm uppercase tracking-wider">Quick Turnaround</h5>
               </div>
               <p className="text-slate-655 dark:text-slate-300 text-xs leading-relaxed font-semibold">
-                I track live workspace alerts. Standard response rate is under <strong className="text-indigo-600 dark:text-indigo-400">2 hours</strong> on WhatsApp and within <strong className="text-indigo-600 dark:text-indigo-400">24 hours</strong> on corporate mail correspondence.
+                I track live workspace alerts. Standard response rate is under <strong className="text-emerald-600 dark:text-emerald-400">2 hours</strong> on WhatsApp and within <strong className="text-emerald-600 dark:text-emerald-400">24 hours</strong> on corporate mail correspondence.
               </p>
             </div>
 
@@ -153,7 +153,7 @@ export default function Contact() {
           {/* Right Column: Contact Form (7 cols) */}
           <div className="lg:col-span-7">
             <div className="bg-white dark:bg-slate-900 border border-slate-200/80 dark:border-slate-800/80 rounded-3xl p-6 md:p-8 shadow-xl shadow-slate-200/10 dark:shadow-none relative overflow-hidden" id="contact-form-container">
-              <div className="absolute top-0 right-0 w-36 h-36 bg-indigo-500/5 blur-3xl rounded-full" />
+              <div className="absolute top-0 right-0 w-36 h-36 bg-emerald-500/5 blur-3xl rounded-full" />
               
               <h4 className="text-xl font-extrabold text-slate-900 dark:text-slate-100 mb-6 tracking-tight">Send a Digital Message</h4>
 
@@ -188,7 +188,7 @@ export default function Contact() {
 
                 <div className="grid grid-cols-1 md:grid-cols-2 gap-5">
                   <div className="flex flex-col">
-                    <label htmlFor="name-input" className="text-xs font-bold text-slate-550 dark:text-slate-450 uppercase tracking-widest mb-1.5">Your Name <span className="text-indigo-600 dark:text-indigo-400">*</span></label>
+                    <label htmlFor="name-input" className="text-xs font-bold text-slate-550 dark:text-slate-450 uppercase tracking-widest mb-1.5">Your Name <span className="text-emerald-600 dark:text-emerald-400">*</span></label>
                     <input
                       id="name-input"
                       type="text"
@@ -196,12 +196,12 @@ export default function Contact() {
                       value={formData.name}
                       onChange={handleInputChange}
                       placeholder="e.g. John Doe"
-                      className="bg-slate-50 dark:bg-slate-950 border border-slate-205/60 dark:border-slate-800/85 rounded-xl px-4 py-3 text-slate-800 dark:text-slate-205 text-sm focus:outline-none focus:border-indigo-600 focus:bg-white dark:focus:bg-slate-900 focus:ring-1 focus:ring-indigo-600 transition-all placeholder:text-slate-400 dark:placeholder:text-slate-500 font-medium"
+                      className="bg-slate-50 dark:bg-slate-950 border border-slate-205/60 dark:border-slate-800/85 rounded-xl px-4 py-3 text-slate-800 dark:text-slate-205 text-sm focus:outline-none focus:border-emerald-600 focus:bg-white dark:focus:bg-slate-900 focus:ring-1 focus:ring-emerald-600 transition-all placeholder:text-slate-400 dark:placeholder:text-slate-500 font-medium"
                     />
                   </div>
                   
                   <div className="flex flex-col">
-                    <label htmlFor="email-input" className="text-xs font-bold text-slate-550 dark:text-slate-450 uppercase tracking-widest mb-1.5">Email Address <span className="text-indigo-600 dark:text-indigo-400">*</span></label>
+                    <label htmlFor="email-input" className="text-xs font-bold text-slate-550 dark:text-slate-450 uppercase tracking-widest mb-1.5">Email Address <span className="text-emerald-600 dark:text-emerald-400">*</span></label>
                     <input
                       id="email-input"
                       type="email"
@@ -209,13 +209,13 @@ export default function Contact() {
                       value={formData.email}
                       onChange={handleInputChange}
                       placeholder="e.g. john@example.com"
-                      className="bg-slate-50 dark:bg-slate-950 border border-slate-205/60 dark:border-slate-800/85 rounded-xl px-4 py-3 text-slate-800 dark:text-slate-205 text-sm focus:outline-none focus:border-indigo-600 focus:bg-white dark:focus:bg-slate-900 focus:ring-1 focus:ring-indigo-600 transition-all placeholder:text-slate-400 dark:placeholder:text-slate-500 font-medium"
+                      className="bg-slate-50 dark:bg-slate-950 border border-slate-205/60 dark:border-slate-800/85 rounded-xl px-4 py-3 text-slate-800 dark:text-slate-205 text-sm focus:outline-none focus:border-emerald-600 focus:bg-white dark:focus:bg-slate-900 focus:ring-1 focus:ring-emerald-600 transition-all placeholder:text-slate-400 dark:placeholder:text-slate-500 font-medium"
                     />
                   </div>
                 </div>
 
                 <div className="flex flex-col">
-                  <label htmlFor="subject-input" className="text-xs font-bold text-slate-550 dark:text-slate-450 uppercase tracking-widest mb-1.5">Subject <span className="text-indigo-600 dark:text-indigo-400">*</span></label>
+                  <label htmlFor="subject-input" className="text-xs font-bold text-slate-550 dark:text-slate-450 uppercase tracking-widest mb-1.5">Subject <span className="text-emerald-600 dark:text-emerald-400">*</span></label>
                   <input
                     id="subject-input"
                     type="text"
@@ -223,12 +223,12 @@ export default function Contact() {
                     value={formData.subject}
                     onChange={handleInputChange}
                     placeholder="Describe your inquiry..."
-                    className="bg-slate-50 dark:bg-slate-950 border border-slate-205/60 dark:border-slate-800/85 rounded-xl px-4 py-3 text-slate-800 dark:text-slate-205 text-sm focus:outline-none focus:border-indigo-600 focus:bg-white dark:focus:bg-slate-900 focus:ring-1 focus:ring-indigo-600 transition-all placeholder:text-slate-400 dark:placeholder:text-slate-500 font-medium"
+                    className="bg-slate-50 dark:bg-slate-950 border border-slate-205/60 dark:border-slate-800/85 rounded-xl px-4 py-3 text-slate-800 dark:text-slate-205 text-sm focus:outline-none focus:border-emerald-600 focus:bg-white dark:focus:bg-slate-900 focus:ring-1 focus:ring-emerald-600 transition-all placeholder:text-slate-400 dark:placeholder:text-slate-500 font-medium"
                   />
                 </div>
 
                 <div className="flex flex-col">
-                  <label htmlFor="message-input" className="text-xs font-bold text-slate-550 dark:text-slate-450 uppercase tracking-widest mb-1.5">Your Message <span className="text-indigo-600 dark:text-indigo-400">*</span></label>
+                  <label htmlFor="message-input" className="text-xs font-bold text-slate-550 dark:text-slate-450 uppercase tracking-widest mb-1.5">Your Message <span className="text-emerald-600 dark:text-emerald-400">*</span></label>
                   <textarea
                     id="message-input"
                     name="message"
@@ -236,14 +236,14 @@ export default function Contact() {
                     value={formData.message}
                     onChange={handleInputChange}
                     placeholder="Write detailed inquiry here..."
-                    className="bg-slate-50 dark:bg-slate-950 border border-slate-205/60 dark:border-slate-800/85 rounded-xl px-4 py-3 text-slate-800 dark:text-slate-205 text-sm focus:outline-none focus:border-indigo-600 focus:bg-white dark:focus:bg-slate-900 focus:ring-1 focus:ring-indigo-600 transition-all placeholder:text-slate-400 dark:placeholder:text-slate-500 resize-none font-medium"
+                    className="bg-slate-50 dark:bg-slate-950 border border-slate-205/60 dark:border-slate-800/85 rounded-xl px-4 py-3 text-slate-800 dark:text-slate-205 text-sm focus:outline-none focus:border-emerald-600 focus:bg-white dark:focus:bg-slate-900 focus:ring-1 focus:ring-emerald-600 transition-all placeholder:text-slate-400 dark:placeholder:text-slate-500 resize-none font-medium"
                   />
                 </div>
 
                 <button
                   type="submit"
                   disabled={loading}
-                  className={`w-full flex items-center justify-center gap-2.5 bg-indigo-600 hover:bg-indigo-550 text-white font-bold py-3.5 rounded-xl text-sm transition-all shadow-xl shadow-indigo-600/10 active:scale-[0.99] cursor-pointer ${
+                  className={`w-full flex items-center justify-center gap-2.5 bg-emerald-600 hover:bg-emerald-555 text-white font-bold py-3.5 rounded-xl text-sm transition-all shadow-xl shadow-emerald-600/10 active:scale-[0.99] cursor-pointer ${
                     loading ? 'opacity-80 cursor-wait' : ''
                   }`}
                 >

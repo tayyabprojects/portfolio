@@ -36,8 +36,8 @@ export default function Projects({ projects }: ProjectsProps) {
         
         {/* Section title */}
         <div className="flex flex-col items-center text-center mb-16" id="projects-title">
-          <h2 className="text-xs font-bold uppercase tracking-widest text-[#4f46e5] dark:text-[#818cf8] mb-2 flex items-center gap-2">
-            <span className="w-1.5 h-1.5 rounded-full bg-indigo-650 dark:bg-indigo-400"></span> Featured Projects
+          <h2 className="text-xs font-bold uppercase tracking-widest text-emerald-605 dark:text-emerald-400 mb-2 flex items-center gap-2">
+            <span className="w-1.5 h-1.5 rounded-full bg-emerald-600 dark:bg-emerald-400"></span> Featured Projects
           </h2>
           <h3 className="text-3xl md:text-4xl font-extrabold text-[#0f172a] dark:text-slate-100 tracking-tight">
             Enterprise Grade Applications
@@ -56,7 +56,7 @@ export default function Projects({ projects }: ProjectsProps) {
                 onClick={() => setActiveProject(proj.id)}
                 className={`px-5 py-2.5 rounded-xl text-xs md:text-sm font-bold transition-all cursor-pointer ${
                   activeProject === proj.id
-                    ? 'bg-indigo-600 dark:bg-indigo-500 text-white shadow-xl shadow-indigo-600/10'
+                    ? 'bg-emerald-600 dark:bg-emerald-500 text-white shadow-xl shadow-emerald-600/10'
                     : 'text-slate-500 dark:text-slate-400 hover:text-slate-900 dark:hover:text-slate-200 hover:bg-slate-50 dark:hover:bg-slate-800'
                 }`}
               >
@@ -105,7 +105,7 @@ export default function Projects({ projects }: ProjectsProps) {
 
                     {/* Subtle gradient shield overlay */}
                     <div className="absolute inset-x-0 bottom-0 h-1/4 bg-gradient-to-t from-black/20 to-transparent flex items-end p-4 pointer-events-none">
-                      <span className="text-[10px] md:text-xs text-white/90 font-mono bg-indigo-900/60 dark:bg-indigo-950/80 backdrop-blur-xs px-2.5 py-1 rounded-md">Responsive Mockup Screen</span>
+                      <span className="text-[10px] md:text-xs text-white/90 font-mono bg-emerald-900/60 dark:bg-emerald-950/80 backdrop-blur-xs px-2.5 py-1 rounded-md">Responsive Mockup Screen</span>
                     </div>
                   </div>
                 </div>
@@ -113,7 +113,7 @@ export default function Projects({ projects }: ProjectsProps) {
                 {/* Right side: Project Details */}
                 <div className="lg:col-span-5 flex flex-col justify-between" id="project-info">
                   <div>
-                    <span className="text-xs font-bold text-indigo-600 dark:text-indigo-400 bg-indigo-50 dark:bg-indigo-950/40 border border-indigo-100 dark:border-indigo-904/50 px-3.5 py-1.5 rounded-full uppercase tracking-wider mb-4 inline-block">
+                    <span className="text-xs font-bold text-emerald-600 dark:text-emerald-400 bg-emerald-50 dark:bg-emerald-950/40 border border-emerald-100 dark:border-emerald-900/50 px-3.5 py-1.5 rounded-full uppercase tracking-wider mb-4 inline-block">
                       {proj.category}
                     </span>
                     <h4 className="text-2xl md:text-3xl font-black text-slate-900 dark:text-slate-100 tracking-tight mt-1 mb-3">
@@ -128,7 +128,7 @@ export default function Projects({ projects }: ProjectsProps) {
                       <p className="text-xs uppercase font-extrabold text-slate-400 dark:text-slate-500 tracking-wider mb-1">Core Operations Included:</p>
                       {proj.features.map((feat, index) => (
                         <div key={index} className="flex gap-2.5 items-start">
-                          <CheckCircle2 className="w-4 h-4 text-indigo-600 dark:text-indigo-400 shrink-0 mt-0.5" />
+                          <CheckCircle2 className="w-4 h-4 text-emerald-600 dark:text-emerald-400 shrink-0 mt-0.5" />
                           <span className="text-xs text-slate-700 dark:text-slate-300 font-bold">{feat}</span>
                         </div>
                       ))}
@@ -153,7 +153,7 @@ export default function Projects({ projects }: ProjectsProps) {
                       href={proj.liveLink}
                       target="_blank"
                       referrerPolicy="no-referrer"
-                      className="w-full flex items-center justify-center gap-2 bg-indigo-600 hover:bg-indigo-500 text-white py-3.5 px-5 rounded-xl font-bold text-xs md:text-sm shadow-lg shadow-indigo-600/10 transition-all hover:scale-[1.01]"
+                      className="w-full flex items-center justify-center gap-2 bg-emerald-600 hover:bg-emerald-505 text-white py-3.5 px-5 rounded-xl font-bold text-xs md:text-sm shadow-lg shadow-emerald-600/10 transition-all hover:scale-[1.01]"
                     >
                       <span>See Preview</span>
                       <ExternalLink className="w-4 h-4" />
