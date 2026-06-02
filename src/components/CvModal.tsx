@@ -1,4 +1,4 @@
-import React, { useRef } from 'react';
+import React, { useRef, useEffect } from 'react';
 import { X, Printer, Mail, Phone, MapPin, Linkedin, Award, Briefcase, FileText, CheckCircle2, Globe, Code2, Download } from 'lucide-react';
 import { PortfolioData } from '../lib/dataStore';
 
@@ -6,10 +6,22 @@ interface CvModalProps {
   isOpen: boolean;
   onClose: () => void;
   data: PortfolioData;
+  cvAutoPrint?: boolean;
+  onResetAutoPrint?: () => void;
 }
 
-export default function CvModal({ isOpen, onClose, data }: CvModalProps) {
+export default function CvModal({ isOpen, onClose, data, cvAutoPrint, onResetAutoPrint }: CvModalProps) {
   const cvRef = useRef<HTMLDivElement>(null);
+
+  useEffect(() => {
+    if (isOpen && cvAutoPrint) {
+      const timer = setTimeout(() => {
+        handlePrint();
+        if (onResetAutoPrint) onResetAutoPrint();
+      }, 500);
+      return () => clearTimeout(timer);
+    }
+  }, [isOpen, cvAutoPrint]);
 
   if (!isOpen) return null;
 
@@ -24,6 +36,8 @@ export default function CvModal({ isOpen, onClose, data }: CvModalProps) {
         body { 
           background: white !important; 
           color: black !important;
+          -webkit-print-color-adjust: exact !important;
+          print-color-adjust: exact !important;
         }
         #nav-container, main, footer, .admin-trigger, #cv-modal-backdrop, .cv-modal-header {
           display: none !important;
@@ -38,6 +52,10 @@ export default function CvModal({ isOpen, onClose, data }: CvModalProps) {
           padding: 0 !important;
           box-shadow: none !important;
           border: none !important;
+        }
+        .avoid-break {
+          page-break-inside: avoid !important;
+          break-inside: avoid !important;
         }
       }
     `;
@@ -141,14 +159,14 @@ Designed for high compatibility with corporate ATS screening.
         {/* Header Controls */}
         <div className="flex flex-wrap items-center justify-between pb-4 border-b border-slate-100 dark:border-slate-800 gap-3 mb-6 cv-modal-header">
           <div className="flex items-center gap-2">
-            <FileText className="w-5 h-5 text-indigo-600 dark:text-indigo-400" />
+            <FileText className="w-5 h-5 text-emerald-650 dark:text-emerald-450" />
             <h3 className="font-extrabold text-slate-900 dark:text-slate-100 text-base md:text-lg">Professional Resume</h3>
           </div>
           <div className="flex flex-wrap items-center gap-2 sm:gap-3">
             <button
               onClick={handleDownloadTxt}
               title="Download clean plaintext version optimized for corporate Applicant Tracking Systems (ATS)"
-              className="flex items-center gap-2 bg-emerald-600 hover:bg-emerald-700 text-white py-2 px-3.5 rounded-xl text-xs font-bold transition-all shadow-sm shadow-emerald-600/10 cursor-pointer"
+              className="flex items-center gap-2 bg-slate-800 hover:bg-slate-900 dark:bg-slate-700 dark:hover:bg-slate-600 text-white py-2 px-3.5 rounded-xl text-xs font-bold transition-all shadow-sm shadow-slate-800/10 cursor-pointer"
             >
               <Download className="w-3.5 h-3.5" />
               <span>Download ATS (.txt)</span>
@@ -156,7 +174,7 @@ Designed for high compatibility with corporate ATS screening.
             <button
               onClick={handlePrint}
               title="Print directly or save as stylish PDF document via browser print options"
-              className="flex items-center gap-2 bg-indigo-600 hover:bg-indigo-700 text-white py-2 px-4 rounded-xl text-xs font-bold transition-all shadow-sm shadow-indigo-600/10 cursor-pointer"
+              className="flex items-center gap-2 bg-emerald-600 hover:bg-emerald-700 text-white py-2 px-4 rounded-xl text-xs font-bold transition-all shadow-sm shadow-emerald-500/10 cursor-pointer"
             >
               <Printer className="w-3.5 h-3.5" />
               <span>Print / Save PDF</span>
@@ -182,25 +200,25 @@ Designed for high compatibility with corporate ATS screening.
             <div className="border-b-2 border-slate-800 pb-5 mb-6 text-center md:text-left flex flex-col md:flex-row justify-between items-center gap-4">
               <div>
                 <h1 className="text-2xl md:text-3xl font-black text-slate-900 tracking-tight uppercase">{personalInfo.name}</h1>
-                <p className="text-xs md:text-sm font-bold text-indigo-600 uppercase tracking-widest mt-1">
+                <p className="text-xs md:text-sm font-bold text-emerald-600 uppercase tracking-widest mt-1">
                   Off-Page SEO Specialist & AI-Assisted Developer
                 </p>
               </div>
               <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-1 gap-2 text-[11px] text-slate-600 font-bold max-w-sm md:text-right">
                 <div className="flex items-center md:justify-end gap-1.5 justify-center">
-                  <Mail className="w-3.5 h-3.5 text-indigo-600 shrink-0" />
+                  <Mail className="w-3.5 h-3.5 text-emerald-600 shrink-0" />
                   <span>{personalInfo.email}</span>
                 </div>
                 <div className="flex items-center md:justify-end gap-1.5 justify-center">
-                  <Phone className="w-3.5 h-3.5 text-indigo-600 shrink-0" />
+                  <Phone className="w-3.5 h-3.5 text-emerald-600 shrink-0" />
                   <span>WhatsApp: {personalInfo.whatsapp}</span>
                 </div>
                 <div className="flex items-center md:justify-end gap-1.5 justify-center">
-                  <MapPin className="w-3.5 h-3.5 text-indigo-600 shrink-0" />
+                  <MapPin className="w-3.5 h-3.5 text-emerald-600 shrink-0" />
                   <span>{personalInfo.basis}</span>
                 </div>
                 <div className="flex items-center md:justify-end gap-1.5 justify-center">
-                  <Linkedin className="w-3.5 h-3.5 text-indigo-600 shrink-0" />
+                  <Linkedin className="w-3.5 h-3.5 text-emerald-600 shrink-0" />
                   <span>linkedin.com/in/asktayyab</span>
                 </div>
               </div>
@@ -229,12 +247,12 @@ Designed for high compatibility with corporate ATS screening.
                   </h2>
                   <div className="space-y-4">
                     {experiences.map((exp, idx) => (
-                      <div key={idx} className="relative pl-3.5 border-l-2 border-indigo-500/30">
+                      <div key={idx} className="relative pl-3.5 border-l-2 border-emerald-500/30">
                         <div className="flex justify-between items-start flex-wrap gap-1">
                           <h3 className="font-extrabold text-slate-900 text-xs md:text-sm">
                             {exp.role}
                           </h3>
-                          <span className="text-[10px] font-bold text-indigo-650 bg-indigo-50 px-2 py-0.5 rounded">
+                          <span className="text-[10px] font-bold text-emerald-750 bg-emerald-50/50 px-2 py-0.5 rounded">
                             {exp.period}
                           </span>
                         </div>
@@ -264,7 +282,7 @@ Designed for high compatibility with corporate ATS screening.
                       <div key={idx} className="bg-slate-50 border border-slate-150 p-3 rounded-lg">
                         <div className="flex justify-between items-center mb-1">
                           <h3 className="font-extrabold text-slate-800 text-xs">{proj.title}</h3>
-                          <span className="text-[10px] uppercase font-extrabold text-indigo-600 tracking-wider">
+                          <span className="text-[10px] uppercase font-extrabold text-emerald-600 tracking-wider">
                             {proj.category}
                           </span>
                         </div>
@@ -293,7 +311,7 @@ Designed for high compatibility with corporate ATS screening.
                   </h2>
                   <div className="space-y-1">
                     <p className="font-extrabold text-slate-950 text-xs">DAE CIT Degree</p>
-                    <p className="text-[10px] text-indigo-600 font-bold">Diploma of Associate Engineer</p>
+                    <p className="text-[10px] text-emerald-600 font-bold">Diploma of Associate Engineer</p>
                     <p className="text-slate-500 text-[10px] font-bold">Computer Information Technology</p>
                     <p className="text-slate-600 text-[11px] mt-1.5 leading-tight">
                       3-year professional education detailing computer systems, database design, software, and web architectures.
@@ -311,10 +329,10 @@ Designed for high compatibility with corporate ATS screening.
                       <div key={sk.name}>
                         <div className="flex justify-between text-[11px] text-slate-700 font-bold mb-0.5">
                           <span>{sk.name}</span>
-                          <span className="text-indigo-600">{sk.level}%</span>
+                          <span className="text-emerald-600">{sk.level}%</span>
                         </div>
                         <div className="w-full bg-slate-100 h-1 rounded-full overflow-hidden">
-                          <div className="bg-indigo-600 h-full rounded-full" style={{ width: `${sk.level}%` }}></div>
+                          <div className="bg-emerald-600 h-full rounded-full" style={{ width: `${sk.level}%` }}></div>
                         </div>
                       </div>
                     ))}
@@ -331,10 +349,10 @@ Designed for high compatibility with corporate ATS screening.
                       <div key={sk.name}>
                         <div className="flex justify-between text-[11px] text-slate-700 font-bold mb-0.5">
                           <span>{sk.name}</span>
-                          <span className="text-purple-600">{sk.level}%</span>
+                          <span className="text-teal-600">{sk.level}%</span>
                         </div>
                         <div className="w-full bg-slate-100 h-1 rounded-full overflow-hidden">
-                          <div className="bg-purple-600 h-full rounded-full" style={{ width: `${sk.level}%` }}></div>
+                          <div className="bg-teal-600 h-full rounded-full" style={{ width: `${sk.level}%` }}></div>
                         </div>
                       </div>
                     ))}
@@ -351,10 +369,10 @@ Designed for high compatibility with corporate ATS screening.
                       <div key={sk.name}>
                         <div className="flex justify-between text-[11px] text-slate-700 font-bold mb-0.5">
                           <span>{sk.name}</span>
-                          <span className="text-cyan-600">{sk.level}%</span>
+                          <span className="text-emerald-700">{sk.level}%</span>
                         </div>
                         <div className="w-full bg-slate-100 h-1 rounded-full overflow-hidden">
-                          <div className="bg-cyan-600 h-full rounded-full" style={{ width: `${sk.level}%` }}></div>
+                          <div className="bg-emerald-700 h-full rounded-full" style={{ width: `${sk.level}%` }}></div>
                         </div>
                       </div>
                     ))}
@@ -367,10 +385,10 @@ Designed for high compatibility with corporate ATS screening.
                     Core Competencies
                   </h2>
                   <div className="flex flex-wrap gap-1.5 pt-1">
-                    <span className="text-[9px] font-bold bg-indigo-50 border border-indigo-100 text-indigo-700 px-2 py-1 rounded">Guest Blogging</span>
-                    <span className="text-[9px] font-bold bg-purple-50 border border-purple-100 text-purple-700 px-2 py-1 rounded">Vibe Coding</span>
-                    <span className="text-[9px] font-bold bg-cyan-50 border border-cyan-100 text-cyan-700 px-2 py-1 rounded">Prompt Engineering</span>
-                    <span className="text-[9px] font-bold bg-emerald-50 border border-emerald-100 text-emerald-700 px-2 py-1 rounded">Link Integrity</span>
+                    <span className="text-[9px] font-bold bg-emerald-50 border border-emerald-100/50 text-emerald-700 px-2 py-1 rounded">Guest Blogging</span>
+                    <span className="text-[9px] font-bold bg-teal-50 border border-teal-100/50 text-teal-700 px-2 py-1 rounded">Vibe Coding</span>
+                    <span className="text-[9px] font-bold bg-emerald-55 border border-emerald-100/55 text-emerald-800 px-2 py-1 rounded">Prompt Engineering</span>
+                    <span className="text-[9px] font-bold bg-teal-55 border border-teal-100/55 text-teal-800 px-2 py-1 rounded">Link Integrity</span>
                   </div>
                 </div>
 

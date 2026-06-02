@@ -18,6 +18,7 @@ export default function App() {
   const [isAdminOpen, setIsAdminOpen] = useState(false);
   const [isAdminAuthenticated, setIsAdminAuthenticated] = useState(false);
   const [isCvOpen, setIsCvOpen] = useState(false);
+  const [cvAutoPrint, setCvAutoPrint] = useState(false);
   const [isDarkMode, setIsDarkMode] = useState(() => {
     if (typeof window !== 'undefined') {
       const saved = localStorage.getItem('isDarkMode');
@@ -91,7 +92,7 @@ export default function App() {
   };
 
   return (
-    <div className="bg-[#FAFBFD] dark:bg-slate-950 text-slate-800 dark:text-slate-100 min-h-screen selection:bg-indigo-650/10 selection:text-indigo-900 dark:selection:bg-indigo-500/20 dark:selection:text-indigo-200 relative transition-colors duration-300">
+    <div className="bg-[#FAFBFD] dark:bg-slate-950 text-slate-800 dark:text-slate-100 min-h-screen selection:bg-emerald-600/10 selection:text-emerald-900 dark:selection:bg-emerald-500/20 dark:selection:text-emerald-200 relative transition-colors duration-300">
       {/* Structural visual blueprint lines in background */}
       <div className="absolute inset-0 bg-[linear-gradient(to_right,#e2e8f050_1px,transparent_1px),linear-gradient(to_bottom,#e2e8f050_1px,transparent_1px)] dark:bg-[linear-gradient(to_right,#33415510_1px,transparent_1px),linear-gradient(to_bottom,#33415510_1px,transparent_1px)] bg-[size:18px_18px] pointer-events-none" />
 
@@ -101,12 +102,16 @@ export default function App() {
         onNavigate={handleNavigate} 
         isDarkMode={isDarkMode}
         toggleDarkMode={() => setIsDarkMode(!isDarkMode)}
-        onOpenCv={() => setIsCvOpen(true)}
+        onOpenCv={(autoPrint) => {
+          setIsCvOpen(true);
+          setCvAutoPrint(!!autoPrint);
+        }}
+        data={portfolioData}
       />
 
       {/* Main Sections */}
       <main className="relative">
-        <Hero personalInfo={portfolioData.personalInfo} onNavigate={handleNavigate} onOpenCv={() => setIsCvOpen(true)} />
+        <Hero personalInfo={portfolioData.personalInfo} onNavigate={handleNavigate} onOpenCv={() => { setIsCvOpen(true); setCvAutoPrint(false); }} />
         
         <div className="max-w-7xl mx-auto px-4 md:px-8">
           <div className="h-px bg-gradient-to-r from-transparent via-slate-205 dark:via-slate-800 to-transparent" />
@@ -166,6 +171,8 @@ export default function App() {
         isOpen={isCvOpen} 
         onClose={() => setIsCvOpen(false)} 
         data={portfolioData} 
+        cvAutoPrint={cvAutoPrint}
+        onResetAutoPrint={() => setCvAutoPrint(false)}
       />
     </div>
   );

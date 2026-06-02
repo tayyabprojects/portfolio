@@ -1,13 +1,15 @@
-import { useState, useEffect } from 'react';
-import { Menu, X, Sparkles, Sun, Moon, FileText } from 'lucide-react';
+import { useState, useEffect, useRef } from 'react';
+import { Menu, X, Sparkles, Sun, Moon, FileText, ChevronDown, Download, Printer } from 'lucide-react';
 import { motion, AnimatePresence } from 'motion/react';
+import { PortfolioData } from '../lib/dataStore';
 
 interface HeaderProps {
   activeSection: string;
   onNavigate: (sectionId: string) => void;
   isDarkMode: boolean;
   toggleDarkMode: () => void;
-  onOpenCv: () => void;
+  onOpenCv: (autoPrint?: boolean) => void;
+  data: PortfolioData;
 }
 
 export default function Header({ 
@@ -15,10 +17,13 @@ export default function Header({
   onNavigate, 
   isDarkMode, 
   toggleDarkMode, 
-  onOpenCv 
+  onOpenCv,
+  data
 }: HeaderProps) {
   const [isOpen, setIsOpen] = useState(false);
   const [scrolled, setScrolled] = useState(false);
+  const [cvDropdownOpen, setCvDropdownOpen] = useState(false);
+  const dropdownRef = useRef<HTMLDivElement>(null);
 
   useEffect(() => {
     const handleScroll = () => {
@@ -27,6 +32,95 @@ export default function Header({
     window.addEventListener('scroll', handleScroll);
     return () => window.removeEventListener('scroll', handleScroll);
   }, []);
+
+  // Handle clicking outside of dropdown to close it
+  useEffect(() => {
+    const handleClickOutside = (event: MouseEvent) => {
+      if (dropdownRef.current && !dropdownRef.current.contains(event.target as Node)) {
+        setCvDropdownOpen(false);
+      }
+    };
+    document.addEventListener('mousedown', handleClickOutside);
+    return () => document.removeEventListener('mousedown', handleClickOutside);
+  }, []);
+
+  const handleDownloadTxt = () => {
+    if (!data) return;
+    const { personalInfo, skillsData, experiences, projects } = data;
+    
+    let text = `======================================================================
+MUHAMMAD TAYYAB - SEO SPECIALIST & AI DEVELOPER
+======================================================================
+
+CONTACT INFORMATION:
+- Email: ${personalInfo.email}
+- WhatsApp: ${personalInfo.whatsapp}
+- Location: ${personalInfo.basis}
+- LinkedIn: https://linkedin.com/in/asktayyab
+
+----------------------------------------------------------------------
+PROFESSIONAL SUMMARY
+----------------------------------------------------------------------
+${personalInfo.bio} Educated with a solid foundation in computer algorithms and hardware diagnostics, bridging search metrics with digital asset production.
+
+----------------------------------------------------------------------
+TECHNICAL EDUCATION
+----------------------------------------------------------------------
+DAE CIT (Diploma of Associate Engineer in Computer Information Technology)
+A comprehensive 3-year professional education detailing computer systems, database design, software development, and web architectures.
+
+----------------------------------------------------------------------
+WORK HISTORY & ROLES
+----------------------------------------------------------------------
+`;
+
+    experiences.forEach((exp) => {
+      text += `\n* ${exp.role.toUpperCase()}
+  Institution/Company: ${exp.institution}
+  Period: ${exp.period}
+  Description: ${exp.description}
+  Key Achievements:\n`;
+      exp.bullets.forEach((b) => {
+        text += `  - ${b}\n`;
+      });
+    });
+
+    text += `\n----------------------------------------------------------------------
+KEY BUILT PROJECTS
+----------------------------------------------------------------------
+`;
+
+    projects.forEach((proj) => {
+      text += `\n* ${proj.title.toUpperCase()} [${proj.category}]
+  Description: ${proj.description}
+  Live URL: ${proj.liveLink}
+  Tech Stack: ${proj.tech.join(', ')}
+`;
+    });
+
+    text += `\n----------------------------------------------------------------------
+CORE DIGITAL CAPABILITIES & SKILLS
+----------------------------------------------------------------------
+- SEO, Outreach & Guest Blogging: ${skillsData.seoSkills.map(s => `${s.name} (${s.level}%)`).join(', ')}
+- Web & Full-Stack Stack: ${skillsData.devSkills.map(s => `${s.name} (${s.level}%)`).join(', ')}
+- Low-Code, Vibe Coding & AI: ${skillsData.automationSkills.map(s => `${s.name} (${s.level}%)`).join(', ')}
+
+======================================================================
+Generated in sync with Muhammad Tayyab's live web portfolio.
+Designed for high compatibility with corporate ATS screening.
+======================================================================
+`;
+
+    const blob = new Blob([text], { type: 'text/plain;charset=utf-8' });
+    const url = URL.createObjectURL(blob);
+    const link = document.createElement('a');
+    link.href = url;
+    link.download = `Muhammad_Tayyab_Resume.txt`;
+    document.body.appendChild(link);
+    link.click();
+    document.body.removeChild(link);
+    URL.revokeObjectURL(url);
+  };
 
   const navItems = [
     { id: 'about', label: 'About Me' },
@@ -91,15 +185,79 @@ export default function Header({
           
           <div className="w-px h-4 bg-slate-200 dark:bg-slate-800 mx-1" />
 
-          {/* New Resume trigger */}
-          <button
-            onClick={onOpenCv}
-            className="flex items-center gap-1.5 bg-white dark:bg-slate-800 hover:bg-slate-50 dark:hover:bg-slate-700 text-slate-750 dark:text-slate-200 px-3.5 py-1.5 rounded-full border border-slate-200 dark:border-slate-700 transition-all font-bold text-xs shadow-xs cursor-pointer"
-            id="nav-cv-button"
-          >
-            <FileText className="w-3.5 h-3.5 text-emerald-500 dark:text-emerald-400" />
-            <span>Resume / CV</span>
-          </button>
+          {/* New Resume trigger with Dropdown Menu */}
+          <div className="relative" ref={dropdownRef} id="nav-cv-button-container">
+            <button
+              onClick={() => setCvDropdownOpen(!cvDropdownOpen)}
+              className="flex items-center gap-1.5 bg-white dark:bg-slate-800 hover:bg-slate-550/10 dark:hover:bg-slate-700 text-slate-750 dark:text-slate-200 px-3.5 py-1.5 rounded-full border border-slate-200 dark:border-slate-700 transition-all font-bold text-xs shadow-xs cursor-pointer focus:outline-none"
+              id="nav-cv-button"
+              aria-expanded={cvDropdownOpen}
+              aria-haspopup="true"
+            >
+              <FileText className="w-3.5 h-3.5 text-emerald-500 dark:text-emerald-400" />
+              <span>Resume / CV</span>
+              <ChevronDown className={`w-3 h-3 text-slate-400 transition-transform duration-300 ${cvDropdownOpen ? 'rotate-180 text-emerald-600 dark:text-emerald-400' : ''}`} />
+            </button>
+
+            <AnimatePresence>
+              {cvDropdownOpen && (
+                <motion.div
+                  initial={{ opacity: 0, y: 10, scale: 0.95 }}
+                  animate={{ opacity: 1, y: 0, scale: 1 }}
+                  exit={{ opacity: 0, y: 10, scale: 0.95 }}
+                  transition={{ duration: 0.15 }}
+                  className="absolute right-0 mt-2.5 w-56 bg-white dark:bg-slate-900 border border-slate-200 dark:border-slate-800 rounded-2xl shadow-xl p-2 z-50 overflow-hidden"
+                  id="nav-cv-dropdown"
+                >
+                  <div className="text-[10px] uppercase font-black tracking-wider text-slate-400 dark:text-slate-500 px-3 py-1.5">
+                    Select CV Format
+                  </div>
+                  
+                  <button
+                    onClick={() => {
+                      onOpenCv(false);
+                      setCvDropdownOpen(false);
+                    }}
+                    className="w-full flex items-center gap-2.5 px-3 py-2 text-left text-xs font-bold text-slate-700 dark:text-slate-350 hover:text-emerald-600 dark:hover:text-emerald-400 hover:bg-emerald-50/50 dark:hover:bg-emerald-950/20 rounded-xl transition-all cursor-pointer"
+                  >
+                    <FileText className="w-4 h-4 text-emerald-500 shrink-0" />
+                    <div className="flex flex-col">
+                      <span>Interactive Sheets</span>
+                      <span className="text-[9px] font-normal text-slate-450 dark:text-slate-500">View live interactive CV</span>
+                    </div>
+                  </button>
+
+                  <button
+                    onClick={() => {
+                      onOpenCv(true);
+                      setCvDropdownOpen(false);
+                    }}
+                    className="w-full flex items-center gap-2.5 px-3 py-2 text-left text-xs font-bold text-slate-700 dark:text-slate-350 hover:text-emerald-600 dark:hover:text-emerald-400 hover:bg-emerald-50/50 dark:hover:bg-emerald-950/20 rounded-xl transition-all cursor-pointer"
+                  >
+                    <Printer className="w-4 h-4 text-emerald-500 shrink-0" />
+                    <div className="flex flex-col">
+                      <span>Download PDF</span>
+                      <span className="text-[9px] font-normal text-slate-455 dark:text-slate-500">Perfect print file (.pdf)</span>
+                    </div>
+                  </button>
+
+                  <button
+                    onClick={() => {
+                      handleDownloadTxt();
+                      setCvDropdownOpen(false);
+                    }}
+                    className="w-full flex items-center gap-2.5 px-3 py-2 text-left text-xs font-bold text-slate-700 dark:text-slate-350 hover:text-emerald-600 dark:hover:text-emerald-400 hover:bg-emerald-50/50 dark:hover:bg-emerald-950/20 rounded-xl transition-all cursor-pointer"
+                  >
+                    <Download className="w-4 h-4 text-emerald-500 shrink-0" />
+                    <div className="flex flex-col">
+                      <span>ATS Plaintext</span>
+                      <span className="text-[9px] font-normal text-slate-455 dark:text-slate-500">Fast tracking system (.txt)</span>
+                    </div>
+                  </button>
+                </motion.div>
+              )}
+            </AnimatePresence>
+          </div>
 
           {/* Theme Switcher */}
           <button

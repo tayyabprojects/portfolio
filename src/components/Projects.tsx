@@ -48,8 +48,9 @@ export default function Projects({ projects }: ProjectsProps) {
         </div>
 
         {/* Project Tabs Selector */}
-        <div className="flex justify-center mb-12" id="projects-tabs">
-          <div className="bg-white dark:bg-slate-900 border border-slate-200/80 dark:border-slate-800 p-1.5 rounded-2xl flex flex-wrap gap-2 shadow-md shadow-slate-100 dark:shadow-none">
+        <div className="flex justify-center mb-12 px-4 animate-fade-in" id="projects-tabs">
+          {/* Desktop and Tablet selector */}
+          <div className="hidden sm:flex bg-white dark:bg-slate-950 border border-slate-200/80 dark:border-slate-800 p-1.5 rounded-2xl gap-2 shadow-md shadow-slate-100 dark:shadow-none">
             {projects.map((proj) => (
               <button
                 key={proj.id}
@@ -63,6 +64,32 @@ export default function Projects({ projects }: ProjectsProps) {
                 {proj.title}
               </button>
             ))}
+          </div>
+
+          {/* Mobile Elegant Dropdown Menu */}
+          <div className="flex sm:hidden w-full max-w-sm flex-col relative" id="mobile-project-dropdown-container">
+            <span className="text-[10px] uppercase font-black tracking-wider text-slate-400 dark:text-slate-500 text-center mb-2.5">
+              Select Enterprise App
+            </span>
+            <div className="relative">
+              <select
+                value={activeProject}
+                onChange={(e) => setActiveProject(e.target.value)}
+                className="w-full bg-white dark:bg-slate-950 border border-slate-205 dark:border-slate-800 px-4 py-3 rounded-2xl text-xs font-bold text-slate-800 dark:text-slate-100 focus:outline-none focus:ring-2 focus:ring-emerald-500/50 shadow-md appearance-none cursor-pointer"
+                aria-label="Filter portfolio projects"
+              >
+                {projects.map((proj) => (
+                  <option key={proj.id} value={proj.id}>
+                    {proj.title} — {proj.category}
+                  </option>
+                ))}
+              </select>
+              <div className="pointer-events-none absolute inset-y-0 right-0 flex items-center px-4 text-emerald-600 dark:text-emerald-400">
+                <svg className="fill-current h-4.5 w-4.5" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20">
+                  <path d="M9.293 12.95l.707.707L15.657 8l-1.414-1.414L10 10.828 5.757 6.586 4.343 8z"/>
+                </svg>
+              </div>
+            </div>
           </div>
         </div>
 
