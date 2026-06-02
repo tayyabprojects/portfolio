@@ -1,6 +1,8 @@
-import React, { useRef, useEffect } from 'react';
-import { X, Printer, Mail, Phone, MapPin, Linkedin, Award, Briefcase, FileText, CheckCircle2, Globe, Code2, Download } from 'lucide-react';
+import React, { useRef, useEffect, useState } from 'react';
+import { X, Printer, Mail, Phone, MapPin, Linkedin, Award, Briefcase, FileText, CheckCircle2, Globe, Code2, Download, Loader2 } from 'lucide-react';
 import { PortfolioData } from '../lib/dataStore';
+import jsPDF from 'jspdf';
+import html2canvas from 'html2canvas';
 
 interface CvModalProps {
   isOpen: boolean;
@@ -12,11 +14,12 @@ interface CvModalProps {
 
 export default function CvModal({ isOpen, onClose, data, cvAutoPrint, onResetAutoPrint }: CvModalProps) {
   const cvRef = useRef<HTMLDivElement>(null);
+  const [isPdfGenerating, setIsPdfGenerating] = useState(false);
 
   useEffect(() => {
     if (isOpen && cvAutoPrint) {
       const timer = setTimeout(() => {
-        handlePrint();
+        handleDownloadPdf();
         if (onResetAutoPrint) onResetAutoPrint();
       }, 500);
       return () => clearTimeout(timer);
@@ -26,10 +29,10 @@ export default function CvModal({ isOpen, onClose, data, cvAutoPrint, onResetAut
   if (!isOpen) return null;
 
   const handlePrint = () => {
-    // We add a class to body, print, and remove it. 
-    // To ensure a high-fidelity print experience across modern browsers,
-    // we use a quick iframe or print stylesheet block. 
-    // A clean way to print is adding style rules that isolate the printing item
+    // We add dynamic style rules to isolate the printing block.
+    // If the modal was hidden on print (such as #cv-modal-backdrop), all its children would be hidden as well.
+    // By styling the backdrop & body wrapper as fully transparent & borderless elements during print,
+    // we allow #printable-cv-view to render beautifully on the printed page.
     const style = document.createElement('style');
     style.innerHTML = `
       @media print {
@@ -39,8 +42,36 @@ export default function CvModal({ isOpen, onClose, data, cvAutoPrint, onResetAut
           -webkit-print-color-adjust: exact !important;
           print-color-adjust: exact !important;
         }
-        #nav-container, main, footer, .admin-trigger, #cv-modal-backdrop, .cv-modal-header {
+        #nav-container, main, footer, .admin-trigger, .cv-modal-header {
           display: none !important;
+        }
+        #cv-modal-backdrop {
+          position: absolute !important;
+          left: 0 !important;
+          top: 0 !important;
+          width: 100% !important;
+          height: auto !important;
+          background: transparent !important;
+          padding: 0 !important;
+          margin: 0 !important;
+          overflow: visible !important;
+          display: block !important;
+          z-index: auto !important;
+        }
+        #cv-modal-body {
+          background: transparent !important;
+          border: none !important;
+          box-shadow: none !important;
+          padding: 0 !important;
+          margin: 0 !important;
+          max-height: none !important;
+          overflow: visible !important;
+          width: 100% !important;
+        }
+        #printable-cv-wrapper {
+          overflow: visible !important;
+          padding: 0 !important;
+          margin: 0 !important;
         }
         #printable-cv-view {
           display: block !important;
@@ -65,6 +96,53 @@ export default function CvModal({ isOpen, onClose, data, cvAutoPrint, onResetAut
     setTimeout(() => {
       document.head.removeChild(style);
     }, 500);
+  };
+
+  const handleDownloadPdf = async () => {
+    const element = cvRef.current;
+    if (!element) return;
+    
+    setIsPdfGenerating(true);
+    try {
+      // Delay slightly so that any pending layouts are finished
+      await new Promise((resolve) => setTimeout(resolve, 100));
+
+      const canvas = await html2canvas(element, {
+        scale: 2.5, // Crisp rendering scale
+        useCORS: true,
+        logging: false,
+        backgroundColor: '#ffffff',
+        windowWidth: 800, // Fixed width view for standard layout
+      });
+
+      const imgData = canvas.toDataURL('image/png');
+      
+      // Standard A4 dimensions (210 x 297 mm)
+      const pdf = new jsPDF('p', 'mm', 'a4');
+      const imgWidth = 210;
+      const pageHeight = 297;
+      const imgHeight = (canvas.height * imgWidth) / canvas.width;
+      let heightLeft = imgHeight;
+      let position = 0;
+
+      pdf.addImage(imgData, 'PNG', 0, position, imgWidth, imgHeight, undefined, 'FAST');
+      heightLeft -= pageHeight;
+
+      while (heightLeft > 0) {
+        position = heightLeft - imgHeight;
+        pdf.addPage();
+        pdf.addImage(imgData, 'PNG', 0, position, imgWidth, imgHeight, undefined, 'FAST');
+        heightLeft -= pageHeight;
+      }
+
+      pdf.save('Muhammad_Tayyab_Resume.pdf');
+    } catch (error) {
+      console.error('Error generating PDF:', error);
+      // Fallback is classic browser save/print
+      handlePrint();
+    } finally {
+      setIsPdfGenerating(false);
+    }
   };
 
   const handleDownloadTxt = () => {
@@ -166,18 +244,36 @@ Designed for high compatibility with corporate ATS screening.
             <button
               onClick={handleDownloadTxt}
               title="Download clean plaintext version optimized for corporate Applicant Tracking Systems (ATS)"
-              className="flex items-center gap-2 bg-slate-800 hover:bg-slate-900 dark:bg-slate-700 dark:hover:bg-slate-600 text-white py-2 px-3.5 rounded-xl text-xs font-bold transition-all shadow-sm shadow-slate-800/10 cursor-pointer"
+              className="flex items-center gap-2 bg-slate-105 hover:bg-slate-200 dark:bg-slate-800 dark:hover:bg-slate-700 text-slate-800 dark:text-slate-100 py-2 px-3 rounded-xl text-xs font-bold transition-all shadow-xs cursor-pointer border border-slate-200 dark:border-slate-700"
             >
               <Download className="w-3.5 h-3.5" />
               <span>Download ATS (.txt)</span>
             </button>
             <button
+              onClick={handleDownloadPdf}
+              disabled={isPdfGenerating}
+              title="Generate and download a high-fidelity PDF copy directly"
+              className="flex items-center gap-2 bg-emerald-600 hover:bg-emerald-700 disabled:bg-slate-400 text-white py-2 px-4 rounded-xl text-xs font-bold transition-all shadow-sm shadow-emerald-500/10 cursor-pointer"
+            >
+              {isPdfGenerating ? (
+                <>
+                  <Loader2 className="w-3.5 h-3.5 animate-spin" />
+                  <span>Compiling PDF...</span>
+                </>
+              ) : (
+                <>
+                  <FileText className="w-3.5 h-3.5" />
+                  <span>Download PDF</span>
+                </>
+              )}
+            </button>
+            <button
               onClick={handlePrint}
-              title="Print directly or save as stylish PDF document via browser print options"
-              className="flex items-center gap-2 bg-emerald-600 hover:bg-emerald-700 text-white py-2 px-4 rounded-xl text-xs font-bold transition-all shadow-sm shadow-emerald-500/10 cursor-pointer"
+              title="Open browser print options to print directly on paper"
+              className="flex items-center gap-2 bg-slate-800 hover:bg-slate-900 dark:bg-slate-700 dark:hover:bg-slate-600 text-white py-2 px-3 rounded-xl text-xs font-bold transition-all shadow-sm cursor-pointer"
             >
               <Printer className="w-3.5 h-3.5" />
-              <span>Print / Save PDF</span>
+              <span>Print CV</span>
             </button>
             <button
               onClick={onClose}

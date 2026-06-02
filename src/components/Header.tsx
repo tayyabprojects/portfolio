@@ -234,7 +234,7 @@ Designed for high compatibility with corporate ATS screening.
                     }}
                     className="w-full flex items-center gap-2.5 px-3 py-2 text-left text-xs font-bold text-slate-700 dark:text-slate-350 hover:text-emerald-600 dark:hover:text-emerald-400 hover:bg-emerald-50/50 dark:hover:bg-emerald-950/20 rounded-xl transition-all cursor-pointer"
                   >
-                    <Printer className="w-4 h-4 text-emerald-500 shrink-0" />
+                    <FileText className="w-4 h-4 text-emerald-500 shrink-0" />
                     <div className="flex flex-col">
                       <span>Download PDF</span>
                       <span className="text-[9px] font-normal text-slate-455 dark:text-slate-500">Perfect print file (.pdf)</span>
