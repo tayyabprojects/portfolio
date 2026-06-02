@@ -155,8 +155,7 @@ export default function Hero({ personalInfo, onNavigate, onOpenCv }: HeroProps) 
                 referrerPolicy="no-referrer"
                 onError={(e) => {
                   // Elegant fallback avatar card if generated image does not resolve
-                  e.currentTarget.src = "https://images.unsplash.com/photo-1507003211169-0a1dd7228f2d?q=80&w=600&auto=format&fit=crop";
-                }}
+e.currentTarget.src = "/assets/images/tayyab_portrait_1780392340788.png";                }}
                 className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-700"
               />
               {/* Bottom tag over portrait */}
